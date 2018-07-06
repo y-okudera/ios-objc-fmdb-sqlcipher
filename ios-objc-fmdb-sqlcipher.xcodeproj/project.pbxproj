@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		389EA5A885421E138B3FF4AA /* libPods-ios-objc-fmdb-sqlcipherTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC830DAFEEDE336AD68D817B /* libPods-ios-objc-fmdb-sqlcipherTests.a */; };
+		9B3E693126673F10480E945B /* libPods-ios-objc-fmdb-sqlcipherUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42324410370829735142F51D /* libPods-ios-objc-fmdb-sqlcipherUITests.a */; };
+		A2D949E27BF544A47F74AFE7 /* libPods-ios-objc-fmdb-sqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D75CB4EEE08C2A66B3E3BDED /* libPods-ios-objc-fmdb-sqlcipher.a */; };
 		B67811B220EFD567000C79BB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811B120EFD567000C79BB /* AppDelegate.m */; };
 		B67811B520EFD567000C79BB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811B420EFD567000C79BB /* ViewController.m */; };
 		B67811B820EFD567000C79BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67811B620EFD567000C79BB /* Main.storyboard */; };
@@ -35,6 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1EEE30DA86C4C798FD9173DF /* Pods-ios-objc-fmdb-sqlcipherUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipherUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipherUITests/Pods-ios-objc-fmdb-sqlcipherUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		307128D73E56B01035C91FE6 /* Pods-ios-objc-fmdb-sqlcipherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipherTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipherTests/Pods-ios-objc-fmdb-sqlcipherTests.release.xcconfig"; sourceTree = "<group>"; };
+		393061A5CF80247893CB7D00 /* Pods-ios-objc-fmdb-sqlcipher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipher/Pods-ios-objc-fmdb-sqlcipher.release.xcconfig"; sourceTree = "<group>"; };
+		42324410370829735142F51D /* libPods-ios-objc-fmdb-sqlcipherUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios-objc-fmdb-sqlcipherUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BDCCDE507D1BC66A6C66E3E /* Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipher/Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig"; sourceTree = "<group>"; };
+		9C78E3C6F883F45F493117AA /* Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipherUITests/Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B67811AD20EFD567000C79BB /* ios-objc-fmdb-sqlcipher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-objc-fmdb-sqlcipher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67811B020EFD567000C79BB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B67811B120EFD567000C79BB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -51,6 +60,9 @@
 		B67811D020EFD568000C79BB /* ios-objc-fmdb-sqlcipherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-objc-fmdb-sqlcipherUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67811D420EFD568000C79BB /* ios_objc_fmdb_sqlcipherUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ios_objc_fmdb_sqlcipherUITests.m; sourceTree = "<group>"; };
 		B67811D620EFD568000C79BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC830DAFEEDE336AD68D817B /* libPods-ios-objc-fmdb-sqlcipherTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios-objc-fmdb-sqlcipherTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D75CB4EEE08C2A66B3E3BDED /* libPods-ios-objc-fmdb-sqlcipher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios-objc-fmdb-sqlcipher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E67438424DA05FBE054B9B72 /* Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipherTests/Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2D949E27BF544A47F74AFE7 /* libPods-ios-objc-fmdb-sqlcipher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				389EA5A885421E138B3FF4AA /* libPods-ios-objc-fmdb-sqlcipherTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +86,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3E693126673F10480E945B /* libPods-ios-objc-fmdb-sqlcipherUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E207EA59817DB97E596C102 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5BDCCDE507D1BC66A6C66E3E /* Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig */,
+				393061A5CF80247893CB7D00 /* Pods-ios-objc-fmdb-sqlcipher.release.xcconfig */,
+				E67438424DA05FBE054B9B72 /* Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig */,
+				307128D73E56B01035C91FE6 /* Pods-ios-objc-fmdb-sqlcipherTests.release.xcconfig */,
+				1EEE30DA86C4C798FD9173DF /* Pods-ios-objc-fmdb-sqlcipherUITests.debug.xcconfig */,
+				9C78E3C6F883F45F493117AA /* Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B67811A420EFD567000C79BB = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +113,8 @@
 				B67811C820EFD568000C79BB /* ios-objc-fmdb-sqlcipherTests */,
 				B67811D320EFD568000C79BB /* ios-objc-fmdb-sqlcipherUITests */,
 				B67811AE20EFD567000C79BB /* Products */,
+				9E207EA59817DB97E596C102 /* Pods */,
+				F23C84833073B611BCE737F4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,6 +162,16 @@
 			path = "ios-objc-fmdb-sqlcipherUITests";
 			sourceTree = "<group>";
 		};
+		F23C84833073B611BCE737F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D75CB4EEE08C2A66B3E3BDED /* libPods-ios-objc-fmdb-sqlcipher.a */,
+				CC830DAFEEDE336AD68D817B /* libPods-ios-objc-fmdb-sqlcipherTests.a */,
+				42324410370829735142F51D /* libPods-ios-objc-fmdb-sqlcipherUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,6 +179,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B67811D920EFD568000C79BB /* Build configuration list for PBXNativeTarget "ios-objc-fmdb-sqlcipher" */;
 			buildPhases = (
+				6C23EC3789C43B3B47277412 /* [CP] Check Pods Manifest.lock */,
 				B67811A920EFD567000C79BB /* Sources */,
 				B67811AA20EFD567000C79BB /* Frameworks */,
 				B67811AB20EFD567000C79BB /* Resources */,
@@ -156,6 +197,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B67811DC20EFD568000C79BB /* Build configuration list for PBXNativeTarget "ios-objc-fmdb-sqlcipherTests" */;
 			buildPhases = (
+				AE0E3E9551E3794EFAE05751 /* [CP] Check Pods Manifest.lock */,
 				B67811C120EFD568000C79BB /* Sources */,
 				B67811C220EFD568000C79BB /* Frameworks */,
 				B67811C320EFD568000C79BB /* Resources */,
@@ -174,6 +216,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B67811DF20EFD568000C79BB /* Build configuration list for PBXNativeTarget "ios-objc-fmdb-sqlcipherUITests" */;
 			buildPhases = (
+				6FAB60A92C6ACAB15281F8EA /* [CP] Check Pods Manifest.lock */,
 				B67811CC20EFD568000C79BB /* Sources */,
 				B67811CD20EFD568000C79BB /* Frameworks */,
 				B67811CE20EFD568000C79BB /* Resources */,
@@ -256,6 +299,63 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6C23EC3789C43B3B47277412 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ios-objc-fmdb-sqlcipher-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6FAB60A92C6ACAB15281F8EA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ios-objc-fmdb-sqlcipherUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE0E3E9551E3794EFAE05751 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ios-objc-fmdb-sqlcipherTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B67811A920EFD567000C79BB /* Sources */ = {
@@ -370,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -422,7 +522,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -431,11 +531,13 @@
 		};
 		B67811DA20EFD568000C79BB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BDCCDE507D1BC66A6C66E3E /* Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B8PR34D6DP;
 				INFOPLIST_FILE = "ios-objc-fmdb-sqlcipher/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -448,11 +550,13 @@
 		};
 		B67811DB20EFD568000C79BB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 393061A5CF80247893CB7D00 /* Pods-ios-objc-fmdb-sqlcipher.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B8PR34D6DP;
 				INFOPLIST_FILE = "ios-objc-fmdb-sqlcipher/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -465,6 +569,7 @@
 		};
 		B67811DD20EFD568000C79BB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E67438424DA05FBE054B9B72 /* Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -484,6 +589,7 @@
 		};
 		B67811DE20EFD568000C79BB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 307128D73E56B01035C91FE6 /* Pods-ios-objc-fmdb-sqlcipherTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -503,6 +609,7 @@
 		};
 		B67811E020EFD568000C79BB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EEE30DA86C4C798FD9173DF /* Pods-ios-objc-fmdb-sqlcipherUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B8PR34D6DP;
@@ -521,6 +628,7 @@
 		};
 		B67811E120EFD568000C79BB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C78E3C6F883F45F493117AA /* Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B8PR34D6DP;
