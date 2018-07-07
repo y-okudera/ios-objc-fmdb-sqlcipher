@@ -17,7 +17,7 @@
 @end
 
 static NSString *const sqliteDBName = @"encrypted.sqlite3";
-static NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
+NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
 @implementation EncryptedDAO
 

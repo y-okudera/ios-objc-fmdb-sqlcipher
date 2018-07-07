@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EncryptedDAO : NSObject
 
+extern NSString *const sqliteDBKey;
+
 + (instancetype)shared;
 + (NSString *)dbPath;
 

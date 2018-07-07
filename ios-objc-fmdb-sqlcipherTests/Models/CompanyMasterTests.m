@@ -33,18 +33,14 @@
     }
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-}
-
 /**
  * 負荷テスト
  *
  * 1. 以下を1,000ループ
  *
- * - 1トランザクションでINSERT文を100件
+ * - 1トランザクションでINSERT文を10件
  *
- * - 1トランザクションでUPDATE文を100件
+ * - 1トランザクションでUPDATE文を10件
  *
  * 2. 以下を1,000ループ
  *
@@ -54,7 +50,7 @@
  */
 - (void)testOfStress {
 
-    const int numberOfTrials = 100;
+    const int numberOfTrials = 1000;
     const int operationsPerTransaction = 10;
 
     // INSERT -> UPDATE
@@ -120,29 +116,6 @@
                 XCTFail(@"i = %d SELECT失敗", i);
             }
         }
-
-//        @autoreleasepool {
-//            for (int j = 1 + (i * operationsPerTransaction); j <= (i + 1) * operationsPerTransaction; j++) {
-//
-//                @autoreleasepool {
-//                    CompanyMaster *selectedData = [CompanyMasterRepository selectByCompanyNo:j].firstObject;
-//                    if (!selectedData) {
-//                        NSLog(@"SELECT結果がnil");
-//                        XCTFail(@"i = %d, j = %d: SELECT失敗", i, j);
-//                    } else {
-//
-//                        NSLog(@"i = %d, j = %d SELECT成功", i, j);
-//
-//                        BOOL resultOfDelete = [CompanyMasterRepository deleteWithCompanyNo:j];
-//                        if (resultOfDelete) {
-//                            NSLog(@"i = %d, j = %d: UPDATE成功", i, j);
-//                        } else {
-//                            XCTFail(@"i = %d, j = %d UPDATE失敗", i, j);
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 }
 @end
