@@ -16,7 +16,7 @@
 @property (nonatomic) NSLock *lock;
 @end
 
-static NSString *const sqlitePlainDBName = @"plain.sqlite3";
+NSString *const sqlitePlainDBName = @"plain.sqlite3";
 
 @implementation PlainDAO
 
@@ -60,15 +60,14 @@ static NSString *const sqlitePlainDBName = @"plain.sqlite3";
     __block BOOL result = YES;
 
     // ロックする
-    [self.lock lock];
-    NSLog(@"ロック開始");
+    [self startLock];
 
     BOOL resultOfEncryptedDBRemove = [self removeEncryptedDB];
     if (!resultOfEncryptedDBRemove) {
         NSLog(@"暗号化済みのDB削除失敗");
 
         // ロックを解除する
-        [self unlock];
+        [self endLock];
         return NO;
     }
 
@@ -81,7 +80,7 @@ static NSString *const sqlitePlainDBName = @"plain.sqlite3";
         [self outputErrorInfo];
 
         // ロックを解除する
-        [self unlock];
+        [self endLock];
         return NO;
     }
 
@@ -99,8 +98,7 @@ static NSString *const sqlitePlainDBName = @"plain.sqlite3";
             result = [self.fmdb executeUpdate:query];
         }
 
-        if (!result || [self.fmdb lastErrorCode]) {
-            
+        if (!result || [self.fmdb hadError]) {
             [self outputErrorInfo];
             break;
         }
@@ -116,12 +114,12 @@ static NSString *const sqlitePlainDBName = @"plain.sqlite3";
     if (!removeResult) {
         NSLog(@"[removeDBError] code: %ld, description: %@", removeDBError.code, removeDBError.description);
         // ロックを解除する
-        [self unlock];
+        [self endLock];
         return NO;
     }
 
     // ロックを解除する
-    [self unlock];
+    [self endLock];
 
     return result;
 }
@@ -136,14 +134,15 @@ static NSString *const sqlitePlainDBName = @"plain.sqlite3";
 - (BOOL)removeEncryptedDB {
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
-
     NSString *const encryptedDB = [EncryptedDAO dbPath];
 
     if ([fileManager fileExistsAtPath:encryptedDB]) {
+
         NSError *removeDBError = nil;
         BOOL removeResult = [fileManager removeItemAtPath:encryptedDB error:&removeDBError];
 
         if (!removeResult) {
+
             NSLog(@"[removeDBError] code: %ld description: %@", removeDBError.code, removeDBError.description);
             return NO;
         }
@@ -152,10 +151,19 @@ static NSString *const sqlitePlainDBName = @"plain.sqlite3";
 }
 
 /**
+ ロックを開始する
+ */
+- (void)startLock {
+
+    [self.lock lock];
+    NSLog(@"lock");
+}
+
+/**
  ロックを解除する
  */
-- (void)unlock {
-    // ロックを解除する
+- (void)endLock {
+
     [self.lock unlock];
     NSLog(@"unlock");
 }
