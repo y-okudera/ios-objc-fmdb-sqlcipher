@@ -92,13 +92,9 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
 
     for (NSString *query in queries) {
 
-        if ([query hasPrefix:@"SELECT"]) {
-            [self.fmdb executeQuery:query];
-        } else {
-            result = [self.fmdb executeUpdate:query];
-        }
+        result = [self.fmdb executeUpdate:query];
 
-        if (!result || [self.fmdb hadError]) {
+        if ([self.fmdb lastErrorCode] != 0) {
             [self outputErrorInfo];
             break;
         }

@@ -55,6 +55,15 @@ extern NSString *const sqliteDBKey;
  */
 - (BOOL)truncateWithTableName:(NSString *)tableName;
 
+#pragma mark - Access sqlite_master
+
+/**
+ Table名を取得する
+
+ @return Table名の配列
+ */
+- (NSArray <NSString *> *)selectTableNames;
+
 NS_ASSUME_NONNULL_END
 
 #pragma mark - Create dictionary

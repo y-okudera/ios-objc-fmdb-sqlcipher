@@ -337,6 +337,47 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     return [self inTransactionWithDictionaries:dics];
 }
 
+#pragma mark - Access sqlite_master
+
+/**
+ Table名を取得する
+
+ @return Table名の配列
+ */
+- (NSArray <NSString *> *)selectTableNames {
+
+    BOOL resultOfDBOpen = [self openAndSettingKey];
+
+    if (!resultOfDBOpen) {
+
+        [self outputErrorInfo];
+
+        // ロックを解除する
+        [self unlock];
+        return @[];
+    }
+
+    FMResultSet *executeResults = [self.fmdb executeQuery:@"SELECT name FROM sqlite_master;"];
+    NSMutableArray <NSString *> *results = [@[] mutableCopy];
+    if (!executeResults) {
+
+        NSLog(@"executeQuery: withArgumentsInArray: 失敗");
+        [self outputErrorInfo];
+    } else {
+
+        while ([executeResults next]) {
+            @autoreleasepool {
+                [results addObject:[[executeResults stringForColumn:@"name"] nullToNil]];
+            }
+        }
+    }
+
+    [executeResults close];
+    [self close];
+
+    return results.copy;
+}
+
 #pragma mark - Create dictionary
 
 static NSString *const dictionaryKeyQuery = @"query";

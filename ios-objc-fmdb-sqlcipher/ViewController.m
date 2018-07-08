@@ -10,6 +10,7 @@
 
 #import "CompanyMasterRepository.h"
 #import "CreatingTablesRepository.h"
+#import "EncryptedDAO.h"
 #import "PlainDAO.h"
 
 @implementation ViewController
@@ -35,12 +36,11 @@
         NSLog(@"SQLCipherへの移行失敗");
     }
 
-    // 暗号化DBにテーブルを作成
-    BOOL createSuccess = [CreatingTablesRepository createAllTables];
-    if (createSuccess) {
-        NSLog(@"company_master作成成功");
+    NSArray <NSString *> *tableNames = [[EncryptedDAO shared] selectTableNames];
+    if (tableNames.count == 0) {
+        NSLog(@"TABLE 無し");
     } else {
-        NSLog(@"company_master作成失敗");
+        NSLog(@"%@", tableNames);
     }
 
     // company_masterテーブルを初期化
