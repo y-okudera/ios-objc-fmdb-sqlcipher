@@ -13,10 +13,15 @@
 #import "PlainDAO.h"
 
 @interface DBMigrationTests : XCTestCase
-
+@property (nonatomic) CompanyMasterRepositoryImpl *companyMasterRepository;
 @end
 
 @implementation DBMigrationTests
+
+- (void)setUp {
+
+    self.companyMasterRepository = [[CompanyMasterRepositoryImpl alloc] init];
+}
 
 /**
  非暗号化DB・暗号化DBともに存在しないケース
@@ -30,7 +35,7 @@
     // 非暗号化DBをリソースからコピーする
     [self copyPlainDB];
 
-    // 以降処理を実行する
+    // 移行処理を実行する
     BOOL migrateResult = [[PlainDAO shared] migrateToEncryptedDB];
 
     XCTAssertTrue(migrateResult);
@@ -38,14 +43,7 @@
     XCTAssertFalse([self existsPlainDB]);
 
     // 移行後、正常に使用できることを確認する(負荷テストを流用)
-    BOOL createSuccess = [CreatingTablesRepository createAllTables];
-    if (createSuccess) {
-        NSLog(@"Table 作成成功");
-    } else {
-        XCTFail(@"Table 作成失敗");
-    }
-
-    BOOL truncateResult = [CompanyMasterRepository truncate];
+    BOOL truncateResult = [self.companyMasterRepository truncate];
     if (truncateResult) {
         NSLog(@"company_masterテーブルTRUNCATE成功");
     } else {
@@ -63,14 +61,14 @@
             for (int j = 0; j < operationsPerTransaction; j++) {
 
                 @autoreleasepool {
-                    CompanyMaster *model = [[CompanyMaster alloc] initWithCompanyNo:(i+j)
+                    CompanyMaster *model = [[CompanyMaster alloc] initWithCompanyNo:i+j
                                                                         companyName:[NSString stringWithFormat:@"株式会社%d-%d", i, j]
                                                               companyEmployeesCount:300];
                     [models addObject:model];
                 }
             }
 
-            BOOL insertResult = [CompanyMasterRepository insertWithCompanyMasterArray:models];
+            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models];
             if (insertResult) {
                 NSLog(@"i = %d INSERT成功", i);
             } else {
@@ -83,14 +81,14 @@
             for (int k = 0; k < operationsPerTransaction; k++) {
 
                 @autoreleasepool {
-                    CompanyMaster *updateModel = [[CompanyMaster alloc] initWithCompanyNo:(i+k)
+                    CompanyMaster *updateModel = [[CompanyMaster alloc] initWithCompanyNo:i+k
                                                                               companyName:[NSString stringWithFormat:@"<UPDATE>株式会社%d-%d", i, k]
                                                                     companyEmployeesCount:1000];
                     [updateModels addObject:updateModel];
                 }
             }
 
-            BOOL resultOfUpdate = [CompanyMasterRepository updateWithCompanyMasterArray:updateModels];
+            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels];
             if (resultOfUpdate) {
                 NSLog(@"i = %d UPDATE成功", i);
             } else {
@@ -100,7 +98,7 @@
     }
 
     // SELECT
-    NSArray <CompanyMaster *> *selectedData = [CompanyMasterRepository selectAll];
+    NSArray <CompanyMaster *> *selectedData = [self.companyMasterRepository selectAll];
     XCTAssertEqual(selectedData.count, 100);
     XCTAssertEqualObjects(selectedData.firstObject.companyName, @"<UPDATE>株式会社1-0");
     XCTAssertEqual(selectedData.firstObject.companyEmployeesCount, 1000);

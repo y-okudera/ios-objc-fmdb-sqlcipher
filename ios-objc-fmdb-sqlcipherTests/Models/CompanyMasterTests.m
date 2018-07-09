@@ -11,21 +11,23 @@
 #import "CreatingTablesRepository.h"
 
 @interface CompanyMasterTests : XCTestCase
-
+@property (nonatomic) CompanyMasterRepositoryImpl *companyMasterRepository;
 @end
 
 @implementation CompanyMasterTests
 
 - (void)setUp {
 
-    BOOL createSuccess = [CreatingTablesRepository createAllTables];
+    CreatingTablesRepositoryImpl *creatingTablesRepository = [[CreatingTablesRepositoryImpl alloc] init];
+    BOOL createSuccess = [creatingTablesRepository createAllTables];
     if (createSuccess) {
         NSLog(@"Table 作成成功");
     } else {
         XCTFail(@"Table 作成失敗");
     }
-    
-    BOOL truncateResult = [CompanyMasterRepository truncate];
+
+    self.companyMasterRepository = [[CompanyMasterRepositoryImpl alloc] init];
+    BOOL truncateResult = [self.companyMasterRepository truncate];
     if (truncateResult) {
         NSLog(@"company_masterテーブルTRUNCATE成功");
     } else {
@@ -50,7 +52,7 @@
  */
 - (void)testOfStress {
 
-    const int numberOfTrials = 1000;
+    const int numberOfTrials = 10;
     const int operationsPerTransaction = 10;
 
     // INSERT -> UPDATE
@@ -61,14 +63,14 @@
             for (int j = 0; j < operationsPerTransaction; j++) {
 
                 @autoreleasepool {
-                    CompanyMaster *model = [[CompanyMaster alloc] initWithCompanyNo:(i+j)
+                    CompanyMaster *model = [[CompanyMaster alloc] initWithCompanyNo:i+j
                                                                         companyName:[NSString stringWithFormat:@"株式会社%d-%d", i, j]
                                                               companyEmployeesCount:300];
                     [models addObject:model];
                 }
             }
 
-            BOOL insertResult = [CompanyMasterRepository insertWithCompanyMasterArray:models];
+            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models];
             if (insertResult) {
                 NSLog(@"i = %d INSERT成功", i);
             } else {
@@ -81,14 +83,14 @@
             for (int k = 0; k < operationsPerTransaction; k++) {
 
                 @autoreleasepool {
-                    CompanyMaster *updateModel = [[CompanyMaster alloc] initWithCompanyNo:(i+k)
+                    CompanyMaster *updateModel = [[CompanyMaster alloc] initWithCompanyNo:i+k
                                                                         companyName:[NSString stringWithFormat:@"<UPDATE>株式会社%d-%d", i, k]
                                                               companyEmployeesCount:1000];
                     [updateModels addObject:updateModel];
                 }
             }
 
-            BOOL resultOfUpdate = [CompanyMasterRepository updateWithCompanyMasterArray:updateModels];
+            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels];
             if (resultOfUpdate) {
                 NSLog(@"i = %d UPDATE成功", i);
             } else {
@@ -101,11 +103,11 @@
     for (int i = 1; i <= numberOfTrials * operationsPerTransaction; i++) {
 
         @autoreleasepool {
-            CompanyMaster *selectedData = [CompanyMasterRepository selectByCompanyNo:i].firstObject;
+            CompanyMaster *selectedData = [self.companyMasterRepository selectByCompanyNo:i].firstObject;
             if (selectedData) {
                 NSLog(@"i = %d SELECT成功", i);
 
-                BOOL resultOfDelete = [CompanyMasterRepository deleteWithCompanyNo:i];
+                BOOL resultOfDelete = [self.companyMasterRepository deleteWithCompanyNo:i];
                 if (resultOfDelete) {
                     NSLog(@"i = %d DELETE成功", i);
                 } else {

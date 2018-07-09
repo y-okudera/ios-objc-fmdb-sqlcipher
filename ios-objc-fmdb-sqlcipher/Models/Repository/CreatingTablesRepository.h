@@ -10,9 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CreatingTablesRepository : NSObject
+@protocol CreatingTablesRepository <NSObject>
 
-+ (BOOL)createAllTables;
+- (BOOL)createAllTables;
+
+@end
+
+@interface CreatingTablesRepositoryImpl : NSObject <CreatingTablesRepository>
+
+- (BOOL)createAllTables;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,11 +11,11 @@
 #import "SelectResult.h"
 #import "SQLiteRequest.h"
 
-@implementation CompanyMasterRepository
+@implementation CompanyMasterRepositoryImpl
 
 #pragma mark - INSERT
 
-+ (BOOL)insertWithCompanyMasterArray:(NSArray <CompanyMaster *> *)newDataArray {
+- (BOOL)insertWithCompanyMasterArray:(NSArray <CompanyMaster *> *)newDataArray {
 
     NSMutableArray <SQLiteRequest *> *insertRequests = [@[] mutableCopy];
     NSString *const sql = @"INSERT INTO company_master(company_name, company_employees_count) VALUES(?, ?);";
@@ -32,7 +32,7 @@
 
 #pragma mark - UPDATE
 
-+ (BOOL)updateWithCompanyMasterArray:(NSArray <CompanyMaster *> *)updateDataArray {
+- (BOOL)updateWithCompanyMasterArray:(NSArray <CompanyMaster *> *)updateDataArray {
 
     NSMutableArray <SQLiteRequest *> *updateRequests = [@[] mutableCopy];
     NSString *const sql = @"UPDATE company_master SET company_name = ?, company_employees_count = ? WHERE company_no = ?;";
@@ -47,7 +47,7 @@
     return [[EncryptedDAO shared] inTransaction:updateRequests];
 }
 
-+ (BOOL)updateWithCompanyNo:(NSUInteger)companyNo
+- (BOOL)updateWithCompanyNo:(NSUInteger)companyNo
                 companyName:(NSString *)companyName
       companyEmployeesCount:(NSUInteger)companyEmployeesCount {
 
@@ -60,7 +60,7 @@
 
 #pragma mark - DELETE
 
-+ (BOOL)deleteWithCompanyNo:(NSUInteger)companyNo {
+- (BOOL)deleteWithCompanyNo:(NSUInteger)companyNo {
 
     NSString *const sql = @"DELETE FROM company_master WHERE company_no = ?;";
     NSArray *const parameter = @[@(companyNo)];
@@ -69,13 +69,13 @@
     return [[EncryptedDAO shared] inTransaction:@[request]];
 }
 
-+ (BOOL)truncate {
+- (BOOL)truncate {
     return [[EncryptedDAO shared] truncateWithTableName:@"company_master"];
 }
 
 #pragma mark - SELECT
 
-+ (NSArray <CompanyMaster *> *)selectAll {
+- (NSArray <CompanyMaster *> *)selectAll {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master;";
     SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
@@ -88,7 +88,7 @@
     return result.resultArray.copy;
 }
 
-+ (NSArray <CompanyMaster *> *)selectByCompanyNo:(NSUInteger)companyNo {
+- (NSArray <CompanyMaster *> *)selectByCompanyNo:(NSUInteger)companyNo {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_no = ?;";
     NSArray *const parameter = @[@(companyNo)];
@@ -102,7 +102,7 @@
     return result.resultArray.copy;
 }
 
-+ (NSArray <CompanyMaster *> *)selectByEmployeesCount:(NSInteger)threshold {
+- (NSArray <CompanyMaster *> *)selectByEmployeesCount:(NSInteger)threshold {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_employees_count >= ?;";
     NSArray *const parameter = @[@(threshold)];

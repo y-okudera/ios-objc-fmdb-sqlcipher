@@ -10,9 +10,9 @@
 #import "EncryptedDAO.h"
 #import "SQLiteRequest.h"
 
-@implementation CreatingTablesRepository
+@implementation CreatingTablesRepositoryImpl
 
-+ (BOOL)createAllTables {
+- (BOOL)createAllTables {
 
     NSMutableArray <SQLiteRequest *> *requestArray = [@[] mutableCopy];
 

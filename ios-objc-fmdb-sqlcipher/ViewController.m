@@ -13,6 +13,10 @@
 #import "EncryptedDAO.h"
 #import "PlainDAO.h"
 
+@interface ViewController ()
+@property (nonatomic) CompanyMasterRepositoryImpl *companyMasterRepository;
+@end
+
 @implementation ViewController
 
 #pragma mark - Life cycle
@@ -20,6 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.companyMasterRepository = [[CompanyMasterRepositoryImpl alloc] init];
+    
     // Main bundleのplain.sqlite3(非暗号DB)をコピー
     BOOL resultOfCopyDB = [self copyPlainSQLite3];
     if (resultOfCopyDB) {
@@ -27,7 +33,7 @@
     } else {
         NSLog(@"コピー作成失敗");
     }
-
+    
     // 移行処理を実行
     BOOL resultOfMigration = [[PlainDAO shared] migrateToEncryptedDB];
     if (resultOfMigration) {
@@ -35,22 +41,22 @@
     } else {
         NSLog(@"SQLCipherへの移行失敗");
     }
-
+    
     NSArray <NSString *> *tableNames = [[EncryptedDAO shared] selectTableNames];
     if (tableNames.count == 0) {
         NSLog(@"TABLE 無し");
     } else {
         NSLog(@"%@", tableNames);
     }
-
+    
     // company_masterテーブルを初期化
-    BOOL truncateResult = [CompanyMasterRepository truncate];
+    BOOL truncateResult = [self.companyMasterRepository truncate];
     if (truncateResult) {
         NSLog(@"company_masterテーブルTRUNCATE成功");
     } else {
         NSLog(@"company_masterテーブルTRUNCATE失敗");
     }
-
+    
     // 暗号化DBを操作
     [self accessEncryptedDB];
 }
@@ -114,7 +120,7 @@
                 }
             }
 
-            BOOL insertResult = [CompanyMasterRepository insertWithCompanyMasterArray:models];
+            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models];
             if (insertResult) {
                 NSLog(@"i = %d INSERT成功", i);
             } else {
@@ -134,7 +140,7 @@
                 }
             }
 
-            BOOL resultOfUpdate = [CompanyMasterRepository updateWithCompanyMasterArray:updateModels];
+            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels];
             if (resultOfUpdate) {
                 NSLog(@"i = %d UPDATE成功", i);
             } else {
@@ -144,7 +150,7 @@
     }
 
     // SELECT
-    NSArray <CompanyMaster *> *selectedData = [CompanyMasterRepository selectAll];
+    NSArray <CompanyMaster *> *selectedData = [self.companyMasterRepository selectAll];
     NSLog(@"%ld", selectedData.count);
     NSLog(@"%@", selectedData.firstObject.companyName);
     NSLog(@"%ld", selectedData.firstObject.companyEmployeesCount);
