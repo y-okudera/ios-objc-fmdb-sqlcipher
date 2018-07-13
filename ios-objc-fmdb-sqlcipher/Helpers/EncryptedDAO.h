@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EncryptedDAO : NSObject
 
+extern NSString *const sqliteDBKey;
+
 + (instancetype)shared;
 + (NSString *)dbPath;
 
@@ -52,6 +54,15 @@ NS_ASSUME_NONNULL_BEGIN
  @return YES: 成功, NO: 失敗
  */
 - (BOOL)truncateWithTableName:(NSString *)tableName;
+
+#pragma mark - Access sqlite_master
+
+/**
+ Table名を取得する
+
+ @return Table名の配列
+ */
+- (NSArray <NSString *> *)selectTableNames;
 
 NS_ASSUME_NONNULL_END
 
