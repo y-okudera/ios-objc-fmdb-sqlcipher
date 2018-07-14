@@ -42,6 +42,28 @@
 }
 
 /**
+ SELECT結果が0件の場合でもエラーを出力しないことをテスト
+ */
+- (void)testSelectZero {
+    DataAccessError *error = nil;
+
+    NSArray <CompanyMaster *> *results = [self.companyMasterRepository selectByCompanyNo:99999 error:&error];
+    NSLog(@"count: %ld", results.count);
+    CompanyMaster *selectedData = results.firstObject;
+    if (selectedData) {
+        NSLog(@"SELECT成功");
+    } else {
+        NSLog(@"SELECT結果がnil");
+
+        if (error) {
+            NSLog(@"%ld", error.error.code);
+            NSLog(@"%@", error.error.userInfo);
+            XCTFail(@"SELECT失敗");
+        }
+    }
+}
+
+/**
  * 負荷テスト
  *
  * numberOfTrials: 試行回数
