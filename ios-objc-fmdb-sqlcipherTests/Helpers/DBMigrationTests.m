@@ -10,7 +10,7 @@
 #import "CreatingTablesRepository.h"
 #import "CompanyMasterRepository.h"
 #import "EncryptedDAO.h"
-#import "PlainDAO.h"
+#import "SQLCipherMigrator.h"
 
 @interface DBMigrationTests : XCTestCase
 @property (nonatomic) CompanyMasterRepositoryImpl *companyMasterRepository;
@@ -36,7 +36,7 @@
     [self copyPlainDB];
 
     // 移行処理を実行する
-    BOOL migrateResult = [[PlainDAO shared] migrateToEncryptedDB];
+    BOOL migrateResult = [[SQLCipherMigrator shared] migrateToEncryptedDB];
 
     XCTAssertTrue(migrateResult);
     XCTAssertTrue([self existsEncryptedDB]);
@@ -120,7 +120,7 @@
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    NSString *const plainDBPath = [PlainDAO dbPath];
+    NSString *const plainDBPath = [SQLCipherMigrator dbPath];
 
     return [fileManager fileExistsAtPath:plainDBPath];
 }
@@ -146,7 +146,7 @@
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    NSString *const plainDBPath = [PlainDAO dbPath];
+    NSString *const plainDBPath = [SQLCipherMigrator dbPath];
 
     if (![fileManager fileExistsAtPath:plainDBPath]) {
         NSString *plainDBResourcePath = [NSBundle.mainBundle pathForResource:@"plain" ofType:@"sqlite3"];
@@ -167,7 +167,7 @@
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    NSString *const plainDBPath = [PlainDAO dbPath];
+    NSString *const plainDBPath = [SQLCipherMigrator dbPath];
 
     if ([fileManager fileExistsAtPath:plainDBPath]) {
         NSError *removeDBError = nil;

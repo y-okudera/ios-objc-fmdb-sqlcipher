@@ -11,7 +11,7 @@
 		9B3E693126673F10480E945B /* libPods-ios-objc-fmdb-sqlcipherUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42324410370829735142F51D /* libPods-ios-objc-fmdb-sqlcipherUITests.a */; };
 		A2D949E27BF544A47F74AFE7 /* libPods-ios-objc-fmdb-sqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D75CB4EEE08C2A66B3E3BDED /* libPods-ios-objc-fmdb-sqlcipher.a */; };
 		B60ABEA420F09FAE0041544F /* CompanyMasterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B60ABEA320F09FAE0041544F /* CompanyMasterTests.m */; };
-		B6243A4520F10C030005F7A0 /* PlainDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243A4420F10C030005F7A0 /* PlainDAO.m */; };
+		B6243A4520F10C030005F7A0 /* SQLCipherMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243A4420F10C030005F7A0 /* SQLCipherMigrator.m */; };
 		B6243A4820F112450005F7A0 /* DBMigrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243A4720F112450005F7A0 /* DBMigrationTests.m */; };
 		B6243A4D20F11EFF0005F7A0 /* plain.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = B6243A4C20F11EFF0005F7A0 /* plain.sqlite3 */; };
 		B67811B220EFD567000C79BB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811B120EFD567000C79BB /* AppDelegate.m */; };
@@ -56,8 +56,8 @@
 		5BDCCDE507D1BC66A6C66E3E /* Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipher/Pods-ios-objc-fmdb-sqlcipher.debug.xcconfig"; sourceTree = "<group>"; };
 		9C78E3C6F883F45F493117AA /* Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipherUITests/Pods-ios-objc-fmdb-sqlcipherUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B60ABEA320F09FAE0041544F /* CompanyMasterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompanyMasterTests.m; sourceTree = "<group>"; };
-		B6243A4320F10C030005F7A0 /* PlainDAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlainDAO.h; sourceTree = "<group>"; };
-		B6243A4420F10C030005F7A0 /* PlainDAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlainDAO.m; sourceTree = "<group>"; };
+		B6243A4320F10C030005F7A0 /* SQLCipherMigrator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLCipherMigrator.h; sourceTree = "<group>"; };
+		B6243A4420F10C030005F7A0 /* SQLCipherMigrator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQLCipherMigrator.m; sourceTree = "<group>"; };
 		B6243A4720F112450005F7A0 /* DBMigrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBMigrationTests.m; sourceTree = "<group>"; };
 		B6243A4C20F11EFF0005F7A0 /* plain.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = plain.sqlite3; sourceTree = "<group>"; };
 		B67811AD20EFD567000C79BB /* ios-objc-fmdb-sqlcipher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-objc-fmdb-sqlcipher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,14 +227,10 @@
 		B67811E220EFDA15000C79BB /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				B6243A4320F10C030005F7A0 /* PlainDAO.h */,
-				B6243A4420F10C030005F7A0 /* PlainDAO.m */,
+				B6243A4320F10C030005F7A0 /* SQLCipherMigrator.h */,
+				B6243A4420F10C030005F7A0 /* SQLCipherMigrator.m */,
 				B67811E320EFDA74000C79BB /* EncryptedDAO.h */,
 				B67811E420EFDA74000C79BB /* EncryptedDAO.m */,
-				B67811F520EFDDD4000C79BB /* SQLiteRequest.h */,
-				B67811F620EFDDD4000C79BB /* SQLiteRequest.m */,
-				B67811F820EFDDFF000C79BB /* SelectResult.h */,
-				B67811F920EFDDFF000C79BB /* SelectResult.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -242,13 +238,14 @@
 		B67811E620EFDAAC000C79BB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B6FFA05720FA00B100E485ED /* DTO */,
+				B6FFA05620F9FFCB00E485ED /* Enum */,
 				B67811E720EFDAB5000C79BB /* Protocol */,
 				B678120420F07B1C000C79BB /* Repository */,
-				B67811E920EFDB1C000C79BB /* TableModel.h */,
-				B67811FE20F07618000C79BB /* CompanyMaster.h */,
-				B67811FF20F07618000C79BB /* CompanyMaster.m */,
-				B678120120F07658000C79BB /* JobMaster.h */,
-				B678120220F07658000C79BB /* JobMaster.m */,
+				B67811F520EFDDD4000C79BB /* SQLiteRequest.h */,
+				B67811F620EFDDD4000C79BB /* SQLiteRequest.m */,
+				B67811F820EFDDFF000C79BB /* SelectResult.h */,
+				B67811F920EFDDFF000C79BB /* SelectResult.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -287,6 +284,25 @@
 				B678120620F07B38000C79BB /* CompanyMasterRepository.m */,
 			);
 			path = Repository;
+			sourceTree = "<group>";
+		};
+		B6FFA05620F9FFCB00E485ED /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				B67811E920EFDB1C000C79BB /* TableModel.h */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		B6FFA05720FA00B100E485ED /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				B67811FE20F07618000C79BB /* CompanyMaster.h */,
+				B67811FF20F07618000C79BB /* CompanyMaster.m */,
+				B678120120F07658000C79BB /* JobMaster.h */,
+				B678120220F07658000C79BB /* JobMaster.m */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		F23C84833073B611BCE737F4 /* Frameworks */ = {
@@ -499,7 +515,7 @@
 				B67811C020EFD568000C79BB /* main.m in Sources */,
 				B67811F720EFDDD4000C79BB /* SQLiteRequest.m in Sources */,
 				B67811FD20F070D7000C79BB /* CreatingTablesRepository.m in Sources */,
-				B6243A4520F10C030005F7A0 /* PlainDAO.m in Sources */,
+				B6243A4520F10C030005F7A0 /* SQLCipherMigrator.m in Sources */,
 				B67811B220EFD567000C79BB /* AppDelegate.m in Sources */,
 				B67811E520EFDA74000C79BB /* EncryptedDAO.m in Sources */,
 			);

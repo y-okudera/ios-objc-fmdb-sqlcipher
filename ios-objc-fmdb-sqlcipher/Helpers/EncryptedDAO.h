@@ -68,8 +68,8 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Create dictionary
 
-+ (nonnull NSDictionary <NSString *, id> *)createDictionaryForTransactionProcessing:(nonnull NSString *)query
-                                                                         parameters:(nullable NSArray *)parameters;
++ (nonnull NSDictionary <NSString *, id> *)createDictionaryForTransaction:(nonnull NSString *)query
+                                                               parameters:(nullable NSArray *)parameters;
 
 @end
 

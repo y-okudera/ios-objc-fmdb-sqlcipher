@@ -329,11 +329,11 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     NSMutableArray <NSDictionary *> *dics = [@[] mutableCopy];
 
     NSString *deleteRecords = [NSString stringWithFormat:@"DELETE FROM %@", tableName];
-    [dics addObject:[EncryptedDAO createDictionaryForTransactionProcessing:deleteRecords
-                                                                parameters:nil]];
+    [dics addObject:[EncryptedDAO createDictionaryForTransaction:deleteRecords
+                                                      parameters:nil]];
     NSString *deleteRecordInSqliteSequence = [NSString stringWithFormat:@"DELETE FROM sqlite_sequence WHERE name = '%@';", tableName];
-    [dics addObject:[EncryptedDAO createDictionaryForTransactionProcessing:deleteRecordInSqliteSequence
-                                                                parameters:nil]];
+    [dics addObject:[EncryptedDAO createDictionaryForTransaction:deleteRecordInSqliteSequence
+                                                      parameters:nil]];
     return [self inTransactionWithDictionaries:dics];
 }
 
@@ -383,8 +383,8 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 static NSString *const dictionaryKeyQuery = @"query";
 static NSString *const dictionaryKeyParameters = @"parameters";
 
-+ (NSDictionary *)createDictionaryForTransactionProcessing:(NSString *)query
-                                                parameters:(NSArray *)parameters {
++ (NSDictionary *)createDictionaryForTransaction:(NSString *)query
+                                      parameters:(NSArray *)parameters {
 
     NSArray *notNilParams = parameters ? parameters : @[];
     return @{dictionaryKeyQuery : query,

@@ -1,5 +1,5 @@
 //
-//  PlainDAO.m
+//  SQLCipherMigrator.m
 //  ios-objc-fmdb-sqlcipher
 //
 //  Created by YukiOkudera on 2018/07/07.
@@ -8,9 +8,9 @@
 
 #import <FMDB/FMDatabase.h>
 #import "EncryptedDAO.h"
-#import "PlainDAO.h"
+#import "SQLCipherMigrator.h"
 
-@interface PlainDAO ()
+@interface SQLCipherMigrator ()
 
 @property (nonatomic) FMDatabase *fmdb;
 @property (nonatomic) NSLock *lock;
@@ -18,13 +18,13 @@
 
 NSString *const sqlitePlainDBName = @"plain.sqlite3";
 
-@implementation PlainDAO
+@implementation SQLCipherMigrator
 
 #pragma mark - Singleton
 
 + (instancetype)shared {
 
-    static PlainDAO *plainDAO = nil;
+    static SQLCipherMigrator *plainDAO = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         plainDAO = [[self alloc] init];
@@ -34,7 +34,7 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
 
 #pragma mark - Database path
 
-+ (NSString *)dbPath {
++ (NSString *)unencryptedDBPath {
     NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                        NSUserDomainMask,
                                                                        YES).firstObject;
@@ -48,7 +48,7 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
     self = [super init];
     if (self) {
         self.lock = [[NSLock alloc] init];
-        self.fmdb = [[FMDatabase alloc] initWithPath:[[self class] dbPath]];
+        self.fmdb = [[FMDatabase alloc] initWithPath:[[self class] unencryptedDBPath]];
     }
     return self;
 }
@@ -105,7 +105,7 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
     NSLog(@"close終了");
 
     NSError *removeDBError = nil;
-    BOOL removeResult = [[NSFileManager defaultManager] removeItemAtPath:[[self class] dbPath]
+    BOOL removeResult = [[NSFileManager defaultManager] removeItemAtPath:[[self class] unencryptedDBPath]
                                                                    error:&removeDBError];
     if (!removeResult) {
         NSLog(@"[removeDBError] code: %ld, description: %@", removeDBError.code, removeDBError.description);

@@ -11,7 +11,7 @@
 #import "CompanyMasterRepository.h"
 #import "CreatingTablesRepository.h"
 #import "EncryptedDAO.h"
-#import "PlainDAO.h"
+#import "SQLCipherMigrator.h"
 
 @interface ViewController ()
 @property (nonatomic) CompanyMasterRepositoryImpl *companyMasterRepository;
@@ -35,7 +35,7 @@
     }
     
     // 移行処理を実行
-    BOOL resultOfMigration = [[PlainDAO shared] migrateToEncryptedDB];
+    BOOL resultOfMigration = [[SQLCipherMigrator shared] migrateToEncryptedDB];
     if (resultOfMigration) {
         NSLog(@"SQLCipherへの移行成功");
     } else {

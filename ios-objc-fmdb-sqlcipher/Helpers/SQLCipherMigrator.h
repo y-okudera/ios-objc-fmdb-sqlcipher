@@ -1,5 +1,5 @@
 //
-//  PlainDAO.h
+//  SQLCipherMigrator.h
 //  ios-objc-fmdb-sqlcipher
 //
 //  Created by YukiOkudera on 2018/07/07.
@@ -12,10 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const sqlitePlainDBName;
 
-@interface PlainDAO : NSObject
+@interface SQLCipherMigrator : NSObject
 
 + (instancetype)shared;
-+ (NSString *)dbPath;
 
 #pragma mark - Encrypt a plain text database
 
