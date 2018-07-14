@@ -15,6 +15,7 @@ extern NSString *const sqlitePlainDBName;
 @interface SQLCipherMigrator : NSObject
 
 + (instancetype)shared;
++ (NSString *)unencryptedDBPath;
 
 #pragma mark - Encrypt a plain text database
 

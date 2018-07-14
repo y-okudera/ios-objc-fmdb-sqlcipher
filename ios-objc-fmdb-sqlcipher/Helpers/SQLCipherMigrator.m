@@ -92,9 +92,10 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
 
     for (NSString *query in queries) {
 
-        result = [self.fmdb executeUpdate:query];
+        [self.fmdb executeUpdate:query];
 
         if ([self.fmdb lastErrorCode] != 0) {
+            result = NO;
             [self outputErrorInfo];
             break;
         }
@@ -103,6 +104,13 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
     NSLog(@"close開始");
     [self.fmdb close];
     NSLog(@"close終了");
+
+    // SQL実行時にエラーが合った場合はリターンする
+    if (!result) {
+        // ロックを解除する
+        [self endLock];
+        return NO;
+    }
 
     NSError *removeDBError = nil;
     BOOL removeResult = [[NSFileManager defaultManager] removeItemAtPath:[[self class] unencryptedDBPath]
@@ -117,7 +125,7 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
     // ロックを解除する
     [self endLock];
 
-    return result;
+    return YES;
 }
 
 #pragma mark - Private

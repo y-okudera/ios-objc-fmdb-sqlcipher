@@ -29,6 +29,7 @@
 		B678120020F07618000C79BB /* CompanyMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811FF20F07618000C79BB /* CompanyMaster.m */; };
 		B678120320F07658000C79BB /* JobMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = B678120220F07658000C79BB /* JobMaster.m */; };
 		B678120720F07B38000C79BB /* CompanyMasterRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = B678120620F07B38000C79BB /* CompanyMasterRepository.m */; };
+		B6FFA05C20FA04F400E485ED /* DataAccessError.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FFA05B20FA04F400E485ED /* DataAccessError.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,8 @@
 		B678120220F07658000C79BB /* JobMaster.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JobMaster.m; sourceTree = "<group>"; };
 		B678120520F07B38000C79BB /* CompanyMasterRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompanyMasterRepository.h; sourceTree = "<group>"; };
 		B678120620F07B38000C79BB /* CompanyMasterRepository.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompanyMasterRepository.m; sourceTree = "<group>"; };
+		B6FFA05A20FA04F400E485ED /* DataAccessError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataAccessError.h; sourceTree = "<group>"; };
+		B6FFA05B20FA04F400E485ED /* DataAccessError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataAccessError.m; sourceTree = "<group>"; };
 		CC830DAFEEDE336AD68D817B /* libPods-ios-objc-fmdb-sqlcipherTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios-objc-fmdb-sqlcipherTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D75CB4EEE08C2A66B3E3BDED /* libPods-ios-objc-fmdb-sqlcipher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios-objc-fmdb-sqlcipher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E67438424DA05FBE054B9B72 /* Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios-objc-fmdb-sqlcipherTests/Pods-ios-objc-fmdb-sqlcipherTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -238,6 +241,7 @@
 		B67811E620EFDAAC000C79BB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B6FFA05920FA042900E485ED /* Error */,
 				B6FFA05720FA00B100E485ED /* DTO */,
 				B6FFA05620F9FFCB00E485ED /* Enum */,
 				B67811E720EFDAB5000C79BB /* Protocol */,
@@ -303,6 +307,15 @@
 				B678120220F07658000C79BB /* JobMaster.m */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		B6FFA05920FA042900E485ED /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				B6FFA05A20FA04F400E485ED /* DataAccessError.h */,
+				B6FFA05B20FA04F400E485ED /* DataAccessError.m */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		F23C84833073B611BCE737F4 /* Frameworks */ = {
@@ -514,6 +527,7 @@
 				B678120320F07658000C79BB /* JobMaster.m in Sources */,
 				B67811C020EFD568000C79BB /* main.m in Sources */,
 				B67811F720EFDDD4000C79BB /* SQLiteRequest.m in Sources */,
+				B6FFA05C20FA04F400E485ED /* DataAccessError.m in Sources */,
 				B67811FD20F070D7000C79BB /* CreatingTablesRepository.m in Sources */,
 				B6243A4520F10C030005F7A0 /* SQLCipherMigrator.m in Sources */,
 				B67811B220EFD567000C79BB /* AppDelegate.m in Sources */,

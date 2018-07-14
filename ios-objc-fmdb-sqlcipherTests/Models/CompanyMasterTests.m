@@ -19,18 +19,24 @@
 - (void)setUp {
 
     CreatingTablesRepositoryImpl *creatingTablesRepository = [[CreatingTablesRepositoryImpl alloc] init];
-    BOOL createSuccess = [creatingTablesRepository createAllTables];
+    DataAccessError *error = nil;
+    BOOL createSuccess = [creatingTablesRepository createAllTablesWithError:&error];
     if (createSuccess) {
         NSLog(@"Table 作成成功");
     } else {
+        NSLog(@"%ld", error.error.code);
+        NSLog(@"%@", error.error.userInfo);
         XCTFail(@"Table 作成失敗");
     }
 
+    error = nil;
     self.companyMasterRepository = [[CompanyMasterRepositoryImpl alloc] init];
-    BOOL truncateResult = [self.companyMasterRepository truncate];
+    BOOL truncateResult = [self.companyMasterRepository truncateWithError:&error];
     if (truncateResult) {
         NSLog(@"company_masterテーブルTRUNCATE成功");
     } else {
+        NSLog(@"%ld", error.error.code);
+        NSLog(@"%@", error.error.userInfo);
         XCTFail(@"company_masterテーブルTRUNCATE失敗");
     }
 }
@@ -55,6 +61,8 @@
     const int numberOfTrials = 10;
     const int operationsPerTransaction = 10;
 
+    DataAccessError *error = nil;
+
     // INSERT -> UPDATE
     for (int i = 0; i < numberOfTrials; i++) {
 
@@ -70,10 +78,13 @@
                 }
             }
 
-            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models];
+            error = nil;
+            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models error:&error];
             if (insertResult) {
                 NSLog(@"i = %d INSERT成功", i);
             } else {
+                NSLog(@"%ld", error.error.code);
+                NSLog(@"%@", error.error.userInfo);
                 XCTFail(@"i = %d INSERT失敗", i);
             }
         }
@@ -90,10 +101,13 @@
                 }
             }
 
-            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels];
+            error = nil;
+            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels error:&error];
             if (resultOfUpdate) {
                 NSLog(@"i = %d UPDATE成功", i);
             } else {
+                NSLog(@"%ld", error.error.code);
+                NSLog(@"%@", error.error.userInfo);
                 XCTFail(@"i = %d UPDATE失敗", i);
             }
         }
@@ -103,18 +117,24 @@
     for (int i = 1; i <= numberOfTrials * operationsPerTransaction; i++) {
 
         @autoreleasepool {
-            CompanyMaster *selectedData = [self.companyMasterRepository selectByCompanyNo:i].firstObject;
+            error = nil;
+            CompanyMaster *selectedData = [self.companyMasterRepository selectByCompanyNo:i error:&error].firstObject;
             if (selectedData) {
                 NSLog(@"i = %d SELECT成功", i);
 
-                BOOL resultOfDelete = [self.companyMasterRepository deleteWithCompanyNo:i];
+                error = nil;
+                BOOL resultOfDelete = [self.companyMasterRepository deleteWithCompanyNo:i error:&error];
                 if (resultOfDelete) {
                     NSLog(@"i = %d DELETE成功", i);
                 } else {
+                    NSLog(@"%ld", error.error.code);
+                    NSLog(@"%@", error.error.userInfo);
                     XCTFail(@"i = %d DELETE失敗", i);
                 }
             } else {
                 NSLog(@"SELECT結果がnil");
+                NSLog(@"%ld", error.error.code);
+                NSLog(@"%@", error.error.userInfo);
                 XCTFail(@"i = %d SELECT失敗", i);
             }
         }

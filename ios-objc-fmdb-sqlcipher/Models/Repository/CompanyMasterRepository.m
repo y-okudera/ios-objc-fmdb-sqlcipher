@@ -15,7 +15,7 @@
 
 #pragma mark - INSERT
 
-- (BOOL)insertWithCompanyMasterArray:(NSArray <CompanyMaster *> *)newDataArray {
+- (BOOL)insertWithCompanyMasterArray:(NSArray <CompanyMaster *> *)newDataArray error:(DataAccessError **)error {
 
     NSMutableArray <SQLiteRequest *> *insertRequests = [@[] mutableCopy];
     NSString *const sql = @"INSERT INTO company_master(company_name, company_employees_count) VALUES(?, ?);";
@@ -27,12 +27,12 @@
         [insertRequests addObject:request];
     }
 
-    return [[EncryptedDAO shared] inTransaction:insertRequests.copy];
+    return [[EncryptedDAO shared] inTransaction:insertRequests.copy error:error];
 }
 
 #pragma mark - UPDATE
 
-- (BOOL)updateWithCompanyMasterArray:(NSArray <CompanyMaster *> *)updateDataArray {
+- (BOOL)updateWithCompanyMasterArray:(NSArray <CompanyMaster *> *)updateDataArray error:(DataAccessError **)error {
 
     NSMutableArray <SQLiteRequest *> *updateRequests = [@[] mutableCopy];
     NSString *const sql = @"UPDATE company_master SET company_name = ?, company_employees_count = ? WHERE company_no = ?;";
@@ -44,38 +44,39 @@
         [updateRequests addObject:request];
     }
 
-    return [[EncryptedDAO shared] inTransaction:updateRequests];
+    return [[EncryptedDAO shared] inTransaction:updateRequests error:error];
 }
 
 - (BOOL)updateWithCompanyNo:(NSUInteger)companyNo
                 companyName:(NSString *)companyName
-      companyEmployeesCount:(NSUInteger)companyEmployeesCount {
+      companyEmployeesCount:(NSUInteger)companyEmployeesCount
+                      error:(DataAccessError **)error {
 
     NSString *const sql = @"UPDATE company_master SET company_name = ?, company_employees_count = ? WHERE company_no = ?;";
     NSArray *const parameters = @[companyName, @(companyEmployeesCount), @(companyNo)];
     SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:parameters];
 
-    return [[EncryptedDAO shared] inTransaction:@[request]];
+    return [[EncryptedDAO shared] inTransaction:@[request] error:error];
 }
 
 #pragma mark - DELETE
 
-- (BOOL)deleteWithCompanyNo:(NSUInteger)companyNo {
+- (BOOL)deleteWithCompanyNo:(NSUInteger)companyNo error:(DataAccessError **)error {
 
     NSString *const sql = @"DELETE FROM company_master WHERE company_no = ?;";
     NSArray *const parameter = @[@(companyNo)];
     SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:parameter];
 
-    return [[EncryptedDAO shared] inTransaction:@[request]];
+    return [[EncryptedDAO shared] inTransaction:@[request] error:error];
 }
 
-- (BOOL)truncate {
-    return [[EncryptedDAO shared] truncateWithTableName:@"company_master"];
+- (BOOL)truncateWithError:(DataAccessError **)error {
+    return [[EncryptedDAO shared] truncateWithTableName:@"company_master" error:error];
 }
 
 #pragma mark - SELECT
 
-- (NSArray <CompanyMaster *> *)selectAll {
+- (NSArray <CompanyMaster *> *)selectAllWithError:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master;";
     SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
@@ -83,12 +84,12 @@
                                                        tableModel:TableModelCompanyMaster];
     SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result];
+    [[EncryptedDAO shared] executeQuery:request result:result error:error];
 
     return result.resultArray.copy;
 }
 
-- (NSArray <CompanyMaster *> *)selectByCompanyNo:(NSUInteger)companyNo {
+- (NSArray <CompanyMaster *> *)selectByCompanyNo:(NSUInteger)companyNo error:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_no = ?;";
     NSArray *const parameter = @[@(companyNo)];
@@ -97,12 +98,12 @@
                                                        tableModel:TableModelCompanyMaster];
     SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result];
+    [[EncryptedDAO shared] executeQuery:request result:result error:error];
 
     return result.resultArray.copy;
 }
 
-- (NSArray <CompanyMaster *> *)selectByEmployeesCount:(NSInteger)threshold {
+- (NSArray <CompanyMaster *> *)selectByEmployeesCount:(NSInteger)threshold error:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_employees_count >= ?;";
     NSArray *const parameter = @[@(threshold)];
@@ -111,7 +112,7 @@
                                                        tableModel:TableModelCompanyMaster];
     SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result];
+    [[EncryptedDAO shared] executeQuery:request result:result error:error];
 
     return result.resultArray.copy;
 }
