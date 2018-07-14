@@ -69,8 +69,8 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     NSLog(@"%s", __func__);
 
     // ロックする
-    [self.lock lock];
     NSLog(@"lock");
+    [self.lock lock];
 
     NSLog(@"open開始");
     BOOL resultOfDBOpen = [self.fmdb open];

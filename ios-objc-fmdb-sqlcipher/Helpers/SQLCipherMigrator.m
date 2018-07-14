@@ -151,8 +151,8 @@ NSString *const sqlitePlainDBName = @"plain.sqlite3";
  */
 - (void)startLock {
 
-    [self.lock lock];
     NSLog(@"lock");
+    [self.lock lock];
 }
 
 /**
