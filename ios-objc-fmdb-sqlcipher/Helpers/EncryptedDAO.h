@@ -7,43 +7,52 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataAccessError.h"
 #import "FMResultSetInitializable.h"
 #import "SelectResult.h"
 #import "SQLiteRequest.h"
 
-NS_ASSUME_NONNULL_BEGIN
+extern NSString *_Nonnull const sqliteDBKey;
 
 @interface EncryptedDAO : NSObject
 
-extern NSString *const sqliteDBKey;
-
-+ (instancetype)shared;
-+ (NSString *)dbPath;
++ (nonnull instancetype)shared;
++ (nonnull NSString *)dbPath;
 
 #pragma mark - INSERT, UPDATE, DELETE
+
 /**
  INSERT, UPDATE, DELETE
 
  @param requests (NSArray <SQLiteRequest *>*) queryとparametersの配列
- @return result (BOOL *) 結果 YES: 成功, NO: 失敗
+ @param error (DataAccessError **) エラーオブジェクト
+ @return YES: 成功, NO: 失敗
  */
-- (BOOL)inTransaction:(NSArray <SQLiteRequest *> *)requests;
+- (BOOL)inTransaction:(nonnull NSArray <SQLiteRequest *> *)requests
+                error:(DataAccessError *_Nullable *_Nullable)error;
 
 /**
  INSERT, UPDATE, DELETE
 
- @param dics (NSArray <NSDictionary <NSString *, id> *> *) queryとparametersの配列
+ @param dics (NSArray <NSDictionary *) queryとparametersの配列
+ @param error (DataAccessError **) エラーオブジェクト
  @return YES: 成功, NO: 失敗
  */
-- (BOOL)inTransactionWithDictionaries:(NSArray <NSDictionary <NSString *, id> *> *)dics;
+- (BOOL)inTransactionWithDictionaries:(nonnull NSArray <NSDictionary *> *)dics
+                                error:(DataAccessError *_Nullable *_Nullable)error;
 
 #pragma mark - SELECT
+
 /**
  SELECT
+
  @param request (SQLiteRequest *) query・parameters
  @param selectResult (SelectResult *)結果を格納するオブジェクト
+ @param error (DataAccessError **) エラーオブジェクト
  */
-- (void)executeQuery:(SQLiteRequest *)request result:(SelectResult *)selectResult;
+- (void)executeQuery:(nonnull SQLiteRequest *)request
+              result:(nonnull SelectResult *)selectResult
+               error:(DataAccessError *_Nullable *_Nullable)error;
 
 #pragma mark - TRUNCATE
 
@@ -51,25 +60,25 @@ extern NSString *const sqliteDBKey;
  TRUNCATEと同等の処理を実行する
 
  @param tableName (NSString *) 対象のテーブル名
+ @param error (DataAccessError **) エラーオブジェクト
  @return YES: 成功, NO: 失敗
  */
-- (BOOL)truncateWithTableName:(NSString *)tableName;
+- (BOOL)truncateWithTableName:(nonnull NSString *)tableName error:(DataAccessError *_Nullable *_Nullable)error;
 
 #pragma mark - Access sqlite_master
 
 /**
  Table名を取得する
 
+ @param error (DataAccessError **) エラーオブジェクト
  @return Table名の配列
  */
-- (NSArray <NSString *> *)selectTableNames;
-
-NS_ASSUME_NONNULL_END
+- (nonnull NSArray <NSString *> *)selectTableNamesWithError:(DataAccessError *_Nullable *_Nullable)error;
 
 #pragma mark - Create dictionary
 
-+ (nonnull NSDictionary <NSString *, id> *)createDictionaryForTransactionProcessing:(nonnull NSString *)query
-                                                                         parameters:(nullable NSArray *)parameters;
++ (nonnull NSDictionary <NSString *, id> *)createDictionaryForTransaction:(nonnull NSString *)query
+                                                               parameters:(nullable NSArray *)parameters;
 
 @end
 

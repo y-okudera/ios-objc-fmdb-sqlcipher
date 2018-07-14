@@ -10,7 +10,7 @@
 #import "CreatingTablesRepository.h"
 #import "CompanyMasterRepository.h"
 #import "EncryptedDAO.h"
-#import "PlainDAO.h"
+#import "SQLCipherMigrator.h"
 
 @interface DBMigrationTests : XCTestCase
 @property (nonatomic) CompanyMasterRepositoryImpl *companyMasterRepository;
@@ -36,72 +36,11 @@
     [self copyPlainDB];
 
     // 移行処理を実行する
-    BOOL migrateResult = [[PlainDAO shared] migrateToEncryptedDB];
+    BOOL migrateResult = [[SQLCipherMigrator shared] migrateToEncryptedDB];
 
     XCTAssertTrue(migrateResult);
     XCTAssertTrue([self existsEncryptedDB]);
     XCTAssertFalse([self existsPlainDB]);
-
-    // 移行後、正常に使用できることを確認する(負荷テストを流用)
-    BOOL truncateResult = [self.companyMasterRepository truncate];
-    if (truncateResult) {
-        NSLog(@"company_masterテーブルTRUNCATE成功");
-    } else {
-        XCTFail(@"company_masterテーブルTRUNCATE失敗");
-    }
-
-    const int numberOfTrials = 10;
-    const int operationsPerTransaction = 10;
-
-    // INSERT -> UPDATE
-    for (int i = 0; i < numberOfTrials; i++) {
-
-        NSMutableArray <CompanyMaster *> *models = [@[] mutableCopy];
-        @autoreleasepool {
-            for (int j = 0; j < operationsPerTransaction; j++) {
-
-                @autoreleasepool {
-                    CompanyMaster *model = [[CompanyMaster alloc] initWithCompanyNo:i+j
-                                                                        companyName:[NSString stringWithFormat:@"株式会社%d-%d", i, j]
-                                                              companyEmployeesCount:300];
-                    [models addObject:model];
-                }
-            }
-
-            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models];
-            if (insertResult) {
-                NSLog(@"i = %d INSERT成功", i);
-            } else {
-                XCTFail(@"i = %d INSERT失敗", i);
-            }
-        }
-
-        NSMutableArray <CompanyMaster *> *updateModels = [@[] mutableCopy];
-        @autoreleasepool {
-            for (int k = 0; k < operationsPerTransaction; k++) {
-
-                @autoreleasepool {
-                    CompanyMaster *updateModel = [[CompanyMaster alloc] initWithCompanyNo:i+k
-                                                                              companyName:[NSString stringWithFormat:@"<UPDATE>株式会社%d-%d", i, k]
-                                                                    companyEmployeesCount:1000];
-                    [updateModels addObject:updateModel];
-                }
-            }
-
-            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels];
-            if (resultOfUpdate) {
-                NSLog(@"i = %d UPDATE成功", i);
-            } else {
-                XCTFail(@"i = %d UPDATE失敗", i);
-            }
-        }
-    }
-
-    // SELECT
-    NSArray <CompanyMaster *> *selectedData = [self.companyMasterRepository selectAll];
-    XCTAssertEqual(selectedData.count, 100);
-    XCTAssertEqualObjects(selectedData.firstObject.companyName, @"<UPDATE>株式会社1-0");
-    XCTAssertEqual(selectedData.firstObject.companyEmployeesCount, 1000);
 }
 
 // TODO: - 非暗号化DBのみ存在する(レコード有り)
@@ -120,7 +59,7 @@
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    NSString *const plainDBPath = [PlainDAO dbPath];
+    NSString *const plainDBPath = [SQLCipherMigrator unencryptedDBPath];
 
     return [fileManager fileExistsAtPath:plainDBPath];
 }
@@ -146,7 +85,7 @@
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    NSString *const plainDBPath = [PlainDAO dbPath];
+    NSString *const plainDBPath = [SQLCipherMigrator unencryptedDBPath];
 
     if (![fileManager fileExistsAtPath:plainDBPath]) {
         NSString *plainDBResourcePath = [NSBundle.mainBundle pathForResource:@"plain" ofType:@"sqlite3"];
@@ -167,7 +106,7 @@
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    NSString *const plainDBPath = [PlainDAO dbPath];
+    NSString *const plainDBPath = [SQLCipherMigrator unencryptedDBPath];
 
     if ([fileManager fileExistsAtPath:plainDBPath]) {
         NSError *removeDBError = nil;

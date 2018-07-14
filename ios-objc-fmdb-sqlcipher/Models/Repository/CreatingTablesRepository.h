@@ -7,18 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataAccessError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol CreatingTablesRepository <NSObject>
 
-- (BOOL)createAllTables;
+- (BOOL)createAllTablesWithError:(DataAccessError **)error;
 
 @end
 
 @interface CreatingTablesRepositoryImpl : NSObject <CreatingTablesRepository>
 
-- (BOOL)createAllTables;
+- (BOOL)createAllTablesWithError:(DataAccessError **)error;
 @end
 
 NS_ASSUME_NONNULL_END

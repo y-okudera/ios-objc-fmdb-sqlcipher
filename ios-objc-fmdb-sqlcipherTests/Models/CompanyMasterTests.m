@@ -19,32 +19,64 @@
 - (void)setUp {
 
     CreatingTablesRepositoryImpl *creatingTablesRepository = [[CreatingTablesRepositoryImpl alloc] init];
-    BOOL createSuccess = [creatingTablesRepository createAllTables];
+    DataAccessError *error = nil;
+    BOOL createSuccess = [creatingTablesRepository createAllTablesWithError:&error];
     if (createSuccess) {
         NSLog(@"Table 作成成功");
     } else {
+        NSLog(@"%ld", error.error.code);
+        NSLog(@"%@", error.error.userInfo);
         XCTFail(@"Table 作成失敗");
     }
 
+    error = nil;
     self.companyMasterRepository = [[CompanyMasterRepositoryImpl alloc] init];
-    BOOL truncateResult = [self.companyMasterRepository truncate];
+    BOOL truncateResult = [self.companyMasterRepository truncateWithError:&error];
     if (truncateResult) {
         NSLog(@"company_masterテーブルTRUNCATE成功");
     } else {
+        NSLog(@"%ld", error.error.code);
+        NSLog(@"%@", error.error.userInfo);
         XCTFail(@"company_masterテーブルTRUNCATE失敗");
+    }
+}
+
+/**
+ SELECT結果が0件の場合でもエラーを出力しないことをテスト
+ */
+- (void)testSelectZero {
+    DataAccessError *error = nil;
+
+    NSArray <CompanyMaster *> *results = [self.companyMasterRepository selectByCompanyNo:99999 error:&error];
+    NSLog(@"count: %ld", results.count);
+    CompanyMaster *selectedData = results.firstObject;
+    if (selectedData) {
+        NSLog(@"SELECT成功");
+    } else {
+        NSLog(@"SELECT結果がnil");
+
+        if (error) {
+            NSLog(@"%ld", error.error.code);
+            NSLog(@"%@", error.error.userInfo);
+            XCTFail(@"SELECT失敗");
+        }
     }
 }
 
 /**
  * 負荷テスト
  *
- * 1. 以下を1,000ループ
+ * numberOfTrials: 試行回数
  *
- * - 1トランザクションでINSERT文を10件
+ * operationsPerTransaction: オペレーション回数
  *
- * - 1トランザクションでUPDATE文を10件
+ * 1. 以下を試行回数分ループ
  *
- * 2. 以下を1,000ループ
+ * - 1トランザクションでINSERT文をオペレーション回数分実行
+ *
+ * - 1トランザクションでUPDATE文をオペレーション回数分実行
+ *
+ * 2. 以下を試行回数*オペレーション回数分ループ
  *
  * - 1件SELECT
  *
@@ -54,6 +86,8 @@
 
     const int numberOfTrials = 10;
     const int operationsPerTransaction = 10;
+
+    DataAccessError *error = nil;
 
     // INSERT -> UPDATE
     for (int i = 0; i < numberOfTrials; i++) {
@@ -70,10 +104,13 @@
                 }
             }
 
-            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models];
+            error = nil;
+            BOOL insertResult = [self.companyMasterRepository insertWithCompanyMasterArray:models error:&error];
             if (insertResult) {
                 NSLog(@"i = %d INSERT成功", i);
             } else {
+                NSLog(@"%ld", error.error.code);
+                NSLog(@"%@", error.error.userInfo);
                 XCTFail(@"i = %d INSERT失敗", i);
             }
         }
@@ -90,10 +127,13 @@
                 }
             }
 
-            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels];
+            error = nil;
+            BOOL resultOfUpdate = [self.companyMasterRepository updateWithCompanyMasterArray:updateModels error:&error];
             if (resultOfUpdate) {
                 NSLog(@"i = %d UPDATE成功", i);
             } else {
+                NSLog(@"%ld", error.error.code);
+                NSLog(@"%@", error.error.userInfo);
                 XCTFail(@"i = %d UPDATE失敗", i);
             }
         }
@@ -103,18 +143,24 @@
     for (int i = 1; i <= numberOfTrials * operationsPerTransaction; i++) {
 
         @autoreleasepool {
-            CompanyMaster *selectedData = [self.companyMasterRepository selectByCompanyNo:i].firstObject;
+            error = nil;
+            CompanyMaster *selectedData = [self.companyMasterRepository selectByCompanyNo:i error:&error].firstObject;
             if (selectedData) {
                 NSLog(@"i = %d SELECT成功", i);
 
-                BOOL resultOfDelete = [self.companyMasterRepository deleteWithCompanyNo:i];
+                error = nil;
+                BOOL resultOfDelete = [self.companyMasterRepository deleteWithCompanyNo:i error:&error];
                 if (resultOfDelete) {
                     NSLog(@"i = %d DELETE成功", i);
                 } else {
+                    NSLog(@"%ld", error.error.code);
+                    NSLog(@"%@", error.error.userInfo);
                     XCTFail(@"i = %d DELETE失敗", i);
                 }
             } else {
                 NSLog(@"SELECT結果がnil");
+                NSLog(@"%ld", error.error.code);
+                NSLog(@"%@", error.error.userInfo);
                 XCTFail(@"i = %d SELECT失敗", i);
             }
         }

@@ -12,7 +12,7 @@
 
 @implementation CreatingTablesRepositoryImpl
 
-- (BOOL)createAllTables {
+- (BOOL)createAllTablesWithError:(DataAccessError **)error {
 
     NSMutableArray <SQLiteRequest *> *requestArray = [@[] mutableCopy];
 
@@ -43,6 +43,6 @@
     
     [requestArray addObject:[[SQLiteRequest alloc] initWithQuery:createJobMaster parameters:nil]];
 
-    return [[EncryptedDAO shared] inTransaction:requestArray.copy];
+    return [[EncryptedDAO shared] inTransaction:requestArray.copy error:error];
 }
 @end

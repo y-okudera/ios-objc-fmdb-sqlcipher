@@ -64,13 +64,13 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
  @return YES:: 成功, NO: 失敗
  */
-- (BOOL)open {
+- (BOOL)openWithError:(DataAccessError **)error {
 
     NSLog(@"%s", __func__);
 
     // ロックする
-    [self.lock lock];
     NSLog(@"lock");
+    [self.lock lock];
 
     NSLog(@"open開始");
     BOOL resultOfDBOpen = [self.fmdb open];
@@ -78,6 +78,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
     if (!resultOfDBOpen) {
         NSLog(@"open失敗");
+        *error = [self errorWithFMDatabase:self.fmdb errorStatement:dataAccessErrorStatementOpen];
         return NO;
     }
 
@@ -89,11 +90,13 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
  @return YES: 成功, NO: 失敗
  */
-- (BOOL)openAndSettingKey {
+- (BOOL)openAndSettingKeyWithError:(DataAccessError **)error {
 
-    BOOL resultOfDBOpen = [self open];
+    DataAccessError *openError = nil;
+    BOOL resultOfDBOpen = [self openWithError:&openError];
 
     if (!resultOfDBOpen) {
+        *error = openError;
         return NO;
     }
 
@@ -102,6 +105,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
     if (!resultOfSettingKey) {
         NSLog(@"setKey: 失敗");
+        *error = [self errorWithFMDatabase:self.fmdb errorStatement:dataAccessErrorStatementSetkey];
         return NO;
     }
 
@@ -111,20 +115,20 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 /**
  close処理
 
- @return YES:: 成功, NO: 失敗
+ FMDBのcloseは必ずYESを返却するためエラーハンドリングしない
  */
-- (BOOL)close {
+- (void)close {
 
     NSLog(@"%s", __func__);
 
     NSLog(@"close開始");
-    BOOL closeResult = [self.fmdb close];
+    [self.fmdb close];
     NSLog(@"close終了");
 
     // ロックを解除する
     [self unlock];
 
-    return closeResult;
+    return;
 }
 
 #pragma mark - FMDatabaseQueue
@@ -133,15 +137,17 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
  INSERT, UPDATE, DELETE
 
  @param requests (NSArray <SQLiteRequest *>*) queryとparametersの配列
- @return result (BOOL *) 結果 YES: 成功, NO: 失敗
+ @param error (DataAccessError **) エラーオブジェクト
+ @return YES: 成功, NO: 失敗
  */
-- (BOOL)inTransaction:(NSArray <SQLiteRequest *> *)requests {
+- (BOOL)inTransaction:(NSArray <SQLiteRequest *> *)requests error:(DataAccessError **)error {
 
-    BOOL resultOfDBOpen = [self open];
+    DataAccessError *openError = nil;
+    BOOL resultOfDBOpen = [self openWithError:&openError];
 
     if (!resultOfDBOpen) {
 
-        [self outputErrorInfo];
+        *error = openError;
 
         // ロックを解除する
         [self unlock];
@@ -150,6 +156,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     }
 
     __block BOOL result = YES;
+    __block DataAccessError *dataAccessError = *error;
 
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:[[self class] dbPath]];
     [queue inDatabase:^(FMDatabase *db) {
@@ -157,15 +164,13 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
         result = [db setKey:sqliteDBKey];
         if (!result) {
 
-            NSLog(@"setKey失敗");
-
-            int lastErrorCode = [db lastErrorCode];
-            NSString *lastErrorMessage = [db lastErrorMessage];
-            NSLog(@"lastErrorCode: %d, lastErrorMessage: %@", lastErrorCode, lastErrorMessage);
+            NSLog(@"setKey: 失敗");
+            dataAccessError = [self errorWithFMDatabase:db errorStatement:dataAccessErrorStatementSetkey];
         }
     }];
 
     if (!result) {
+        *error = dataAccessError;
         [self close];
         return NO;
     }
@@ -181,7 +186,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
             if (!result) {
 
                 NSLog(@"executeUpdate: withArgumentsInArray: 失敗");
-                [self outputErrorInfo];
+                dataAccessError = [self errorWithFMDatabase:db errorStatement:dataAccessErrorStatementExecuteUpdate];
 
                 *rollback = YES;
                 break;
@@ -189,11 +194,13 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
         }
     }];
 
-    result = [self close];
-
     if (!result) {
-        NSLog(@"close失敗");
+        *error = dataAccessError;
+        [self close];
+        return NO;
     }
+
+    [self close];
 
     return result;
 }
@@ -202,16 +209,17 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
  INSERT, UPDATE, DELETE
 
  @param dics (NSArray <NSDictionary *) queryとparametersの配列
+ @param error (DataAccessError **) エラーオブジェクト
  @return YES: 成功, NO: 失敗
  */
-- (BOOL)inTransactionWithDictionaries:(NSArray <NSDictionary *> *)dics {
+- (BOOL)inTransactionWithDictionaries:(NSArray <NSDictionary *> *)dics error:(DataAccessError **)error {
 
-    BOOL resultOfDBOpen = [self open];
+    DataAccessError *openError = nil;
+    BOOL resultOfDBOpen = [self openWithError:&openError];
 
     if (!resultOfDBOpen) {
 
-        [self outputErrorInfo];
-
+        *error = openError;
         // ロックを解除する
         [self unlock];
 
@@ -219,6 +227,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     }
 
     __block BOOL result = YES;
+    __block DataAccessError *dataAccessError = *error;
 
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:[[self class] dbPath]];
     [queue inDatabase:^(FMDatabase *db) {
@@ -226,15 +235,13 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
         result = [db setKey:sqliteDBKey];
         if (!result) {
 
-            NSLog(@"setKey失敗");
-
-            int lastErrorCode = [db lastErrorCode];
-            NSString *lastErrorMessage = [db lastErrorMessage];
-            NSLog(@"lastErrorCode: %d, lastErrorMessage: %@", lastErrorCode, lastErrorMessage);
+            NSLog(@"setKey: 失敗");
+            dataAccessError = [self errorWithFMDatabase:db errorStatement:dataAccessErrorStatementSetkey];
         }
     }];
 
     if (!result) {
+        *error = dataAccessError;
         [self close];
         return NO;
     }
@@ -252,7 +259,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
             if (!result) {
 
                 NSLog(@"executeUpdate: withArgumentsInArray: 失敗");
-                [self outputErrorInfo];
+                dataAccessError = [self errorWithFMDatabase:db errorStatement:dataAccessErrorStatementExecuteUpdate];
 
                 *rollback = YES;
                 break;
@@ -260,11 +267,13 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
         }
     }];
 
-    result = [self close];
-
     if (!result) {
-        NSLog(@"close失敗");
+        *error = dataAccessError;
+        [self close];
+        return NO;
     }
+
+    [self close];
 
     return result;
 }
@@ -273,10 +282,12 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
 /**
  SELECT
+
  @param request (SQLiteRequest *) query・parameters
  @param selectResult (SelectResult *)結果を格納するオブジェクト
+ @param error (DataAccessError **) エラーオブジェクト
  */
-- (void)executeQuery:(SQLiteRequest *)request result:(SelectResult *)selectResult {
+- (void)executeQuery:(SQLiteRequest *)request result:(SelectResult *)selectResult error:(DataAccessError **)error {
 
     if (request.tableModel != selectResult.tableModel) {
         NSLog(@"結果を格納するオブジェクトのTableModel不正");
@@ -285,12 +296,12 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
     [selectResult.resultArray removeAllObjects];
 
-    BOOL resultOfDBOpen = [self openAndSettingKey];
+    DataAccessError *openError = nil;
+    BOOL resultOfDBOpen = [self openAndSettingKeyWithError:&openError];
 
     if (!resultOfDBOpen) {
 
-        [self outputErrorInfo];
-
+        *error = openError;
         // ロックを解除する
         [self unlock];
         return;
@@ -301,7 +312,8 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     if (!executeResults) {
 
         NSLog(@"executeQuery: withArgumentsInArray: 失敗");
-        [self outputErrorInfo];
+        *error = [self errorWithFMDatabase:self.fmdb errorStatement:dataAccessErrorStatementExecuteQuery];
+
     } else {
 
         while ([executeResults next]) {
@@ -322,19 +334,20 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
  TRUNCATEと同等の処理を実行する
 
  @param tableName (NSString *) 対象のテーブル名
+ @param error (DataAccessError **) エラーオブジェクト
  @return YES: 成功, NO: 失敗
  */
-- (BOOL)truncateWithTableName:(NSString *)tableName {
+- (BOOL)truncateWithTableName:(NSString *)tableName error:(DataAccessError **)error {
 
     NSMutableArray <NSDictionary *> *dics = [@[] mutableCopy];
 
     NSString *deleteRecords = [NSString stringWithFormat:@"DELETE FROM %@", tableName];
-    [dics addObject:[EncryptedDAO createDictionaryForTransactionProcessing:deleteRecords
-                                                                parameters:nil]];
+    [dics addObject:[EncryptedDAO createDictionaryForTransaction:deleteRecords
+                                                      parameters:nil]];
     NSString *deleteRecordInSqliteSequence = [NSString stringWithFormat:@"DELETE FROM sqlite_sequence WHERE name = '%@';", tableName];
-    [dics addObject:[EncryptedDAO createDictionaryForTransactionProcessing:deleteRecordInSqliteSequence
-                                                                parameters:nil]];
-    return [self inTransactionWithDictionaries:dics];
+    [dics addObject:[EncryptedDAO createDictionaryForTransaction:deleteRecordInSqliteSequence
+                                                      parameters:nil]];
+    return [self inTransactionWithDictionaries:dics error:error];
 }
 
 #pragma mark - Access sqlite_master
@@ -342,16 +355,17 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 /**
  Table名を取得する
 
+ @param error (DataAccessError **) エラーオブジェクト
  @return Table名の配列
  */
-- (NSArray <NSString *> *)selectTableNames {
+- (NSArray <NSString *> *)selectTableNamesWithError:(DataAccessError **)error {
 
-    BOOL resultOfDBOpen = [self openAndSettingKey];
+    DataAccessError *openError = nil;
+    BOOL resultOfDBOpen = [self openAndSettingKeyWithError:&openError];
 
     if (!resultOfDBOpen) {
 
-        [self outputErrorInfo];
-
+        *error = openError;
         // ロックを解除する
         [self unlock];
         return @[];
@@ -362,7 +376,8 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     if (!executeResults) {
 
         NSLog(@"executeQuery: withArgumentsInArray: 失敗");
-        [self outputErrorInfo];
+        *error = [self errorWithFMDatabase:self.fmdb errorStatement:dataAccessErrorStatementExecuteQuery];
+
     } else {
 
         while ([executeResults next]) {
@@ -383,8 +398,8 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 static NSString *const dictionaryKeyQuery = @"query";
 static NSString *const dictionaryKeyParameters = @"parameters";
 
-+ (NSDictionary *)createDictionaryForTransactionProcessing:(NSString *)query
-                                                parameters:(NSArray *)parameters {
++ (NSDictionary *)createDictionaryForTransaction:(NSString *)query
+                                      parameters:(NSArray *)parameters {
 
     NSArray *notNilParams = parameters ? parameters : @[];
     return @{dictionaryKeyQuery : query,
@@ -402,14 +417,15 @@ static NSString *const dictionaryKeyParameters = @"parameters";
     NSLog(@"unlock");
 }
 
-/**
- エラー情報をコンソールに出力する
- */
-- (void)outputErrorInfo {
+- (DataAccessError *)errorWithFMDatabase:(FMDatabase *)fmdb
+                          errorStatement:(NSString *)dataAccessErrorStatementOpen {
 
-    const int lastErrorCode = [self.fmdb lastErrorCode];
-    NSString *const lastErrorMessage = [self.fmdb lastErrorMessage];
-    NSLog(@"lastErrorCode: %d, lastErrorMessage: %@", lastErrorCode, lastErrorMessage);
+    const int lastErrorCode = [fmdb lastErrorCode];
+    NSString *const lastErrorMessage = [fmdb lastErrorMessage];
+
+    return [[DataAccessError alloc] initWithLastErrorCode:lastErrorCode
+                                         lastErrorMessage:lastErrorMessage
+                                           errorStatement:dataAccessErrorStatementOpen];
 }
 
 @end
