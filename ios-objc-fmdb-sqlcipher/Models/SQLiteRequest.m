@@ -10,18 +10,14 @@
 
 @implementation SQLiteRequest
 
-- (instancetype)initWithQuery:(NSString *)query parameters:(NSArray *)parameters tableModel:(TableModel)tableModel {
+- (instancetype)initWithQuery:(NSString *)query parameters:(NSArray *)parameters {
 
     self = [super init];
     if (self) {
         self.query = query;
         self.parameters = parameters;
-        self.tableModel = tableModel;
     }
     return self;
 }
 
-- (instancetype)initWithQuery:(NSString *)query parameters:(NSArray *)parameters {
-    return [self initWithQuery:query parameters:parameters tableModel:TableModelNone];
-}
 @end

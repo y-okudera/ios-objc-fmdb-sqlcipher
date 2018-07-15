@@ -13,11 +13,6 @@
 
 @property (nonnull, nonatomic) NSString *query;
 @property (nullable, nonatomic) NSArray *parameters;
-@property (nonatomic) TableModel tableModel;
-
-- (nonnull instancetype)initWithQuery:(nonnull NSString *)query
-                           parameters:(nullable NSArray *)parameters
-                           tableModel:(TableModel)tableModel;
 
 - (nonnull instancetype)initWithQuery:(nonnull NSString *)query
                            parameters:(nullable NSArray *)parameters;

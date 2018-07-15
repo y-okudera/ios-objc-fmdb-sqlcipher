@@ -13,7 +13,8 @@
 		B60ABEA420F09FAE0041544F /* CompanyMasterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B60ABEA320F09FAE0041544F /* CompanyMasterTests.m */; };
 		B6243A4520F10C030005F7A0 /* SQLCipherMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243A4420F10C030005F7A0 /* SQLCipherMigrator.m */; };
 		B6243A4820F112450005F7A0 /* DBMigrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6243A4720F112450005F7A0 /* DBMigrationTests.m */; };
-		B6243A4D20F11EFF0005F7A0 /* plain.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = B6243A4C20F11EFF0005F7A0 /* plain.sqlite3 */; };
+		B64ED08220FAEF530017648D /* JobMasterRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = B64ED08120FAEF530017648D /* JobMasterRepository.m */; };
+		B64ED08420FAFAB00017648D /* plain.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = B64ED08320FAFAAF0017648D /* plain.sqlite3 */; };
 		B67811B220EFD567000C79BB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811B120EFD567000C79BB /* AppDelegate.m */; };
 		B67811B520EFD567000C79BB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811B420EFD567000C79BB /* ViewController.m */; };
 		B67811B820EFD567000C79BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67811B620EFD567000C79BB /* Main.storyboard */; };
@@ -24,7 +25,6 @@
 		B67811E520EFDA74000C79BB /* EncryptedDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811E420EFDA74000C79BB /* EncryptedDAO.m */; };
 		B67811F420EFDD6B000C79BB /* NSObject+NullToNil.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811F320EFDD6B000C79BB /* NSObject+NullToNil.m */; };
 		B67811F720EFDDD4000C79BB /* SQLiteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811F620EFDDD4000C79BB /* SQLiteRequest.m */; };
-		B67811FA20EFDDFF000C79BB /* SelectResult.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811F920EFDDFF000C79BB /* SelectResult.m */; };
 		B67811FD20F070D7000C79BB /* CreatingTablesRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811FC20F070D7000C79BB /* CreatingTablesRepository.m */; };
 		B678120020F07618000C79BB /* CompanyMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = B67811FF20F07618000C79BB /* CompanyMaster.m */; };
 		B678120320F07658000C79BB /* JobMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = B678120220F07658000C79BB /* JobMaster.m */; };
@@ -60,7 +60,9 @@
 		B6243A4320F10C030005F7A0 /* SQLCipherMigrator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLCipherMigrator.h; sourceTree = "<group>"; };
 		B6243A4420F10C030005F7A0 /* SQLCipherMigrator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQLCipherMigrator.m; sourceTree = "<group>"; };
 		B6243A4720F112450005F7A0 /* DBMigrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBMigrationTests.m; sourceTree = "<group>"; };
-		B6243A4C20F11EFF0005F7A0 /* plain.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = plain.sqlite3; sourceTree = "<group>"; };
+		B64ED08020FAEF530017648D /* JobMasterRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JobMasterRepository.h; sourceTree = "<group>"; };
+		B64ED08120FAEF530017648D /* JobMasterRepository.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JobMasterRepository.m; sourceTree = "<group>"; };
+		B64ED08320FAFAAF0017648D /* plain.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = plain.sqlite3; sourceTree = "<group>"; };
 		B67811AD20EFD567000C79BB /* ios-objc-fmdb-sqlcipher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-objc-fmdb-sqlcipher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67811B020EFD567000C79BB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B67811B120EFD567000C79BB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -78,14 +80,12 @@
 		B67811D620EFD568000C79BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B67811E320EFDA74000C79BB /* EncryptedDAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EncryptedDAO.h; sourceTree = "<group>"; };
 		B67811E420EFDA74000C79BB /* EncryptedDAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EncryptedDAO.m; sourceTree = "<group>"; };
-		B67811E820EFDAD3000C79BB /* FMResultSetInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMResultSetInitializable.h; sourceTree = "<group>"; };
+		B67811E820EFDAD3000C79BB /* FMDBResultDictionaryInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDBResultDictionaryInitializable.h; sourceTree = "<group>"; };
 		B67811E920EFDB1C000C79BB /* TableModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableModel.h; sourceTree = "<group>"; };
 		B67811F220EFDD6B000C79BB /* NSObject+NullToNil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+NullToNil.h"; sourceTree = "<group>"; };
 		B67811F320EFDD6B000C79BB /* NSObject+NullToNil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NullToNil.m"; sourceTree = "<group>"; };
 		B67811F520EFDDD4000C79BB /* SQLiteRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLiteRequest.h; sourceTree = "<group>"; };
 		B67811F620EFDDD4000C79BB /* SQLiteRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQLiteRequest.m; sourceTree = "<group>"; };
-		B67811F820EFDDFF000C79BB /* SelectResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectResult.h; sourceTree = "<group>"; };
-		B67811F920EFDDFF000C79BB /* SelectResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectResult.m; sourceTree = "<group>"; };
 		B67811FB20F070D7000C79BB /* CreatingTablesRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreatingTablesRepository.h; sourceTree = "<group>"; };
 		B67811FC20F070D7000C79BB /* CreatingTablesRepository.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreatingTablesRepository.m; sourceTree = "<group>"; };
 		B67811FE20F07618000C79BB /* CompanyMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompanyMaster.h; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		B6243A4920F119AF0005F7A0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B6243A4C20F11EFF0005F7A0 /* plain.sqlite3 */,
+				B64ED08320FAFAAF0017648D /* plain.sqlite3 */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -248,8 +248,6 @@
 				B678120420F07B1C000C79BB /* Repository */,
 				B67811F520EFDDD4000C79BB /* SQLiteRequest.h */,
 				B67811F620EFDDD4000C79BB /* SQLiteRequest.m */,
-				B67811F820EFDDFF000C79BB /* SelectResult.h */,
-				B67811F920EFDDFF000C79BB /* SelectResult.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -257,7 +255,7 @@
 		B67811E720EFDAB5000C79BB /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				B67811E820EFDAD3000C79BB /* FMResultSetInitializable.h */,
+				B67811E820EFDAD3000C79BB /* FMDBResultDictionaryInitializable.h */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -286,6 +284,8 @@
 				B67811FC20F070D7000C79BB /* CreatingTablesRepository.m */,
 				B678120520F07B38000C79BB /* CompanyMasterRepository.h */,
 				B678120620F07B38000C79BB /* CompanyMasterRepository.m */,
+				B64ED08020FAEF530017648D /* JobMasterRepository.h */,
+				B64ED08120FAEF530017648D /* JobMasterRepository.m */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -434,7 +434,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6243A4D20F11EFF0005F7A0 /* plain.sqlite3 in Resources */,
+				B64ED08420FAFAB00017648D /* plain.sqlite3 in Resources */,
 				B67811BD20EFD568000C79BB /* LaunchScreen.storyboard in Resources */,
 				B67811BA20EFD568000C79BB /* Assets.xcassets in Resources */,
 				B67811B820EFD567000C79BB /* Main.storyboard in Resources */,
@@ -520,7 +520,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B67811F420EFDD6B000C79BB /* NSObject+NullToNil.m in Sources */,
-				B67811FA20EFDDFF000C79BB /* SelectResult.m in Sources */,
 				B678120720F07B38000C79BB /* CompanyMasterRepository.m in Sources */,
 				B67811B520EFD567000C79BB /* ViewController.m in Sources */,
 				B678120020F07618000C79BB /* CompanyMaster.m in Sources */,
@@ -528,6 +527,7 @@
 				B67811C020EFD568000C79BB /* main.m in Sources */,
 				B67811F720EFDDD4000C79BB /* SQLiteRequest.m in Sources */,
 				B6FFA05C20FA04F400E485ED /* DataAccessError.m in Sources */,
+				B64ED08220FAEF530017648D /* JobMasterRepository.m in Sources */,
 				B67811FD20F070D7000C79BB /* CreatingTablesRepository.m in Sources */,
 				B6243A4520F10C030005F7A0 /* SQLCipherMigrator.m in Sources */,
 				B67811B220EFD567000C79BB /* AppDelegate.m in Sources */,

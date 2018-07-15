@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FMResultSetInitializable.h"
+#import "FMDBResultDictionaryInitializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  company_masterテーブルのDTO
  */
-@interface CompanyMaster : NSObject <FMResultSetInitializable>
+@interface CompanyMaster : NSObject <FMDBResultDictionaryInitializable>
 
-@property (nonatomic) TableModel tableModel;
 @property (nonatomic) NSUInteger companyNo;
 @property (nonatomic) NSString *companyName;
 @property (nonatomic) NSUInteger companyEmployeesCount;
@@ -25,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
                       companyName:(NSString *)companyName
             companyEmployeesCount:(NSUInteger)companyEmployeesCount;
 
-- (instancetype)initWithFMResultSet:(FMResultSet *)resultSet;
+- (instancetype)initWithResultDictionary:(NSDictionary *)resultDictionary;
 @end
 
 NS_ASSUME_NONNULL_END

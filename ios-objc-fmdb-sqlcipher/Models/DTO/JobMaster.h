@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FMResultSetInitializable.h"
+#import "FMDBResultDictionaryInitializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  job_masterテーブルのDTO
  */
-@interface JobMaster : NSObject <FMResultSetInitializable>
+@interface JobMaster : NSObject <FMDBResultDictionaryInitializable>
 
-@property (nonatomic) TableModel tableModel;
 @property (nonatomic) NSUInteger jobNo;
 @property (nonatomic) NSUInteger companyNo;
 @property (nonatomic) NSString *postingStartDate;
@@ -27,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *jobInterviewLocation;
 @property (nonatomic) NSString *jobSalary;
 @property (nonatomic) NSString *jobDetailInfo;
+@property (nonatomic) NSString *companyName;
 
 - (instancetype)initWithJobNo:(NSUInteger)jobNo
                     companyNo:(NSUInteger)companyNo
@@ -37,9 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
                   jobLocation:(NSString *)jobLocation
          jobInterviewLocation:(NSString *)jobInterviewLocation
                     jobSalary:(NSString *)jobSalary
-                jobDetailInfo:(NSString *)jobDetailInfo;
+                jobDetailInfo:(NSString *)jobDetailInfo
+                  companyName:(NSString *)companyName;
 
-- (instancetype)initWithFMResultSet:(FMResultSet *)resultSet;
+- (instancetype)initWithResultDictionary:(NSDictionary *)resultDictionary;
 @end
 
 NS_ASSUME_NONNULL_END

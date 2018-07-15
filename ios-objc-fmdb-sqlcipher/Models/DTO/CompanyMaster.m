@@ -16,7 +16,6 @@
 
     self = [super init];
     if (self) {
-        self.tableModel = TableModelCompanyMaster;
         self.companyNo = companyNo;
         self.companyName = companyName;
         self.companyEmployeesCount = companyEmployeesCount;
@@ -24,11 +23,11 @@
     return self;
 }
 
-- (instancetype)initWithFMResultSet:(FMResultSet *)resultSet {
+- (instancetype)initWithResultDictionary:(NSDictionary *)resultDictionary {
 
-    NSUInteger const companyNo = [resultSet longForColumn:@"company_no"];
-    NSString *const companyName = [[resultSet stringForColumn:@"company_name"] nullToNil];
-    NSUInteger const companyEmployeesCount = [resultSet longForColumn:@"company_employees_count"];
+    NSUInteger const companyNo = [resultDictionary[@"company_no"] unsignedIntegerValue];
+    NSString *const companyName = [resultDictionary[@"company_name"] nullToNil];
+    NSUInteger const companyEmployeesCount = [resultDictionary[@"company_employees_count"] unsignedIntegerValue];
 
     return [self initWithCompanyNo:companyNo companyName:companyName companyEmployeesCount:companyEmployeesCount];
 }
