@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TableModel.h"
 
 @interface SQLiteRequest : NSObject
 

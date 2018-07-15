@@ -81,7 +81,6 @@
 		B67811E320EFDA74000C79BB /* EncryptedDAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EncryptedDAO.h; sourceTree = "<group>"; };
 		B67811E420EFDA74000C79BB /* EncryptedDAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EncryptedDAO.m; sourceTree = "<group>"; };
 		B67811E820EFDAD3000C79BB /* FMDBResultDictionaryInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDBResultDictionaryInitializable.h; sourceTree = "<group>"; };
-		B67811E920EFDB1C000C79BB /* TableModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableModel.h; sourceTree = "<group>"; };
 		B67811F220EFDD6B000C79BB /* NSObject+NullToNil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+NullToNil.h"; sourceTree = "<group>"; };
 		B67811F320EFDD6B000C79BB /* NSObject+NullToNil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NullToNil.m"; sourceTree = "<group>"; };
 		B67811F520EFDDD4000C79BB /* SQLiteRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLiteRequest.h; sourceTree = "<group>"; };
@@ -243,7 +242,6 @@
 			children = (
 				B6FFA05920FA042900E485ED /* Error */,
 				B6FFA05720FA00B100E485ED /* DTO */,
-				B6FFA05620F9FFCB00E485ED /* Enum */,
 				B67811E720EFDAB5000C79BB /* Protocol */,
 				B678120420F07B1C000C79BB /* Repository */,
 				B67811F520EFDDD4000C79BB /* SQLiteRequest.h */,
@@ -288,14 +286,6 @@
 				B64ED08120FAEF530017648D /* JobMasterRepository.m */,
 			);
 			path = Repository;
-			sourceTree = "<group>";
-		};
-		B6FFA05620F9FFCB00E485ED /* Enum */ = {
-			isa = PBXGroup;
-			children = (
-				B67811E920EFDB1C000C79BB /* TableModel.h */,
-			);
-			path = Enum;
 			sourceTree = "<group>";
 		};
 		B6FFA05720FA00B100E485ED /* DTO */ = {
