@@ -2,25 +2,23 @@
 FMDB/SQLCipherのデモ(Objective-C)
 
 
-## FMResultSetInitializableプロトコルに準拠したテーブル毎のモデルクラスを定義
+## FMDBResultDictionaryInitializableプロトコルに準拠したテーブル毎のモデルクラスを定義
 
-FMResultSetInitializableプロトコルに準拠して、以下のプロパティとイニシャライザを必ず定義する。
-- `@property (nonatomic) TableModel tableModel;`
-- `- (instancetype)initWithFMResultSet:(FMResultSet *)resultSet;`
+FMDBResultDictionaryInitializableプロトコルに準拠して、以下のイニシャライザを必ず定義する。
+- `- (instancetype)initWithResultDictionary:(NSDictionary *)resultDictionary;`
 
 CompanyMaster.h
 ```objc
 #import <Foundation/Foundation.h>
-#import "FMResultSetInitializable.h"
+#import "FMDBResultDictionaryInitializable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  company_masterテーブルのDTO
  */
-@interface CompanyMaster : NSObject <FMResultSetInitializable>
+@interface CompanyMaster : NSObject <FMDBResultDictionaryInitializable>
 
-@property (nonatomic) TableModel tableModel;
 @property (nonatomic) NSUInteger companyNo;
 @property (nonatomic) NSString *companyName;
 @property (nonatomic) NSUInteger companyEmployeesCount;
@@ -29,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
                       companyName:(NSString *)companyName
             companyEmployeesCount:(NSUInteger)companyEmployeesCount;
 
-- (instancetype)initWithFMResultSet:(FMResultSet *)resultSet;
+- (instancetype)initWithResultDictionary:(NSDictionary *)resultDictionary;
 @end
 
 NS_ASSUME_NONNULL_END
@@ -47,7 +45,6 @@ CompanyMaster.m
 
     self = [super init];
     if (self) {
-        self.tableModel = TableModelCompanyMaster;
         self.companyNo = companyNo;
         self.companyName = companyName;
         self.companyEmployeesCount = companyEmployeesCount;
@@ -55,11 +52,11 @@ CompanyMaster.m
     return self;
 }
 
-- (instancetype)initWithFMResultSet:(FMResultSet *)resultSet {
+- (instancetype)initWithResultDictionary:(NSDictionary *)resultDictionary {
 
-    NSUInteger const companyNo = [resultSet longForColumn:@"company_no"];
-    NSString *const companyName = [[resultSet stringForColumn:@"company_name"] nullToNil];
-    NSUInteger const companyEmployeesCount = [resultSet longForColumn:@"company_employees_count"];
+    NSUInteger const companyNo = [resultDictionary[@"company_no"] unsignedIntegerValue];
+    NSString *const companyName = [resultDictionary[@"company_name"] nullToNil];
+    NSUInteger const companyEmployeesCount = [resultDictionary[@"company_employees_count"] unsignedIntegerValue];
 
     return [self initWithCompanyNo:companyNo companyName:companyName companyEmployeesCount:companyEmployeesCount];
 }
@@ -361,7 +358,6 @@ CompanyMasterRepository.m
 ```objc
 #import "CompanyMasterRepository.h"
 #import "EncryptedDAO.h"
-#import "SelectResult.h"
 #import "SQLiteRequest.h"
 
 @implementation CompanyMasterRepositoryImpl
@@ -432,42 +428,48 @@ CompanyMasterRepository.m
 - (NSArray <CompanyMaster *> *)selectAllWithError:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master;";
-    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
-                                                       parameters:nil
-                                                       tableModel:TableModelCompanyMaster];
-    SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result error:error];
+    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:nil];
+    NSArray <NSDictionary *> *resultDics = [[EncryptedDAO shared] executeQuery:request error:error];
 
-    return result.resultArray.copy;
+    NSMutableArray <CompanyMaster *> *results = [@[] mutableCopy];
+    for (NSDictionary *resultDic in resultDics) {
+        [results addObject:[[CompanyMaster alloc] initWithResultDictionary:resultDic]];
+    }
+
+    return results.copy;
 }
 
 - (NSArray <CompanyMaster *> *)selectByCompanyNo:(NSUInteger)companyNo error:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_no = ?;";
     NSArray *const parameter = @[@(companyNo)];
-    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
-                                                       parameters:parameter
-                                                       tableModel:TableModelCompanyMaster];
-    SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result error:error];
+    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:parameter];
+    NSArray <NSDictionary *> *resultDics = [[EncryptedDAO shared] executeQuery:request error:error];
 
-    return result.resultArray.copy;
+    NSMutableArray <CompanyMaster *> *results = [@[] mutableCopy];
+    for (NSDictionary *resultDic in resultDics) {
+        [results addObject:[[CompanyMaster alloc] initWithResultDictionary:resultDic]];
+    }
+
+    return results.copy;
 }
 
 - (NSArray <CompanyMaster *> *)selectByEmployeesCount:(NSInteger)threshold error:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_employees_count >= ?;";
     NSArray *const parameter = @[@(threshold)];
-    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
-                                                       parameters:parameter
-                                                       tableModel:TableModelCompanyMaster];
-    SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result error:error];
+    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:parameter];
+    NSArray <NSDictionary *> *resultDics = [[EncryptedDAO shared] executeQuery:request error:error];
 
-    return result.resultArray.copy;
+    NSMutableArray <CompanyMaster *> *results = [@[] mutableCopy];
+    for (NSDictionary *resultDic in resultDics) {
+        [results addObject:[[CompanyMaster alloc] initWithResultDictionary:resultDic]];
+    }
+
+    return results.copy;
 }
 @end
 ```
