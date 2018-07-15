@@ -9,6 +9,7 @@
 #import <FMDB/FMDatabase.h>
 #import "FMDatabaseQueue.h"
 #import "EncryptedDAO.h"
+#import "NSObject+NullToNil.h"
 
 @interface EncryptedDAO ()
 
@@ -284,17 +285,11 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
  SELECT
 
  @param request (SQLiteRequest *) query・parameters
- @param selectResult (SelectResult *)結果を格納するオブジェクト
  @param error (DataAccessError **) エラーオブジェクト
+ @return (NSArray <NSDictionary *> *) 取得結果の配列
  */
-- (void)executeQuery:(SQLiteRequest *)request result:(SelectResult *)selectResult error:(DataAccessError **)error {
-
-    if (request.tableModel != selectResult.tableModel) {
-        NSLog(@"結果を格納するオブジェクトのTableModel不正");
-        return;
-    }
-
-    [selectResult.resultArray removeAllObjects];
+- (NSArray <NSDictionary *> *)executeQuery:(nonnull SQLiteRequest *)request
+                                     error:(DataAccessError *_Nullable *_Nullable)error {
 
     DataAccessError *openError = nil;
     BOOL resultOfDBOpen = [self openAndSettingKeyWithError:&openError];
@@ -304,8 +299,10 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
         *error = openError;
         // ロックを解除する
         [self unlock];
-        return;
+        return nil;
     }
+
+    NSMutableArray <NSDictionary *> *resultDics = [@[] mutableCopy];
 
     FMResultSet *executeResults = [self.fmdb executeQuery:request.query withArgumentsInArray:request.parameters];
 
@@ -318,7 +315,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
 
         while ([executeResults next]) {
             @autoreleasepool {
-                [selectResult.resultArray addObject:[[selectResult.resultType.class alloc] initWithFMResultSet:executeResults]];
+                [resultDics addObject:[executeResults resultDictionary]];
             }
         }
     }
@@ -326,6 +323,7 @@ NSString *const sqliteDBKey = @"zaq12wsxcde34rfvbgt56yhnmju78ik,";
     [executeResults close];
 
     [self close];
+    return resultDics.copy;
 }
 
 #pragma mark - TRUNCATE

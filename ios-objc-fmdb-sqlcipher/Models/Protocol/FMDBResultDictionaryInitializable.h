@@ -1,5 +1,5 @@
 //
-//  FMResultSetInitializable.h
+//  FMDBResultDictionaryInitializable.h
 //  ios-objc-fmdb-sqlcipher
 //
 //  Created by YukiOkudera on 2018/07/07.
@@ -7,16 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FMResultSet.h"
-#import "TableModel.h"
 #import "NSObject+NullToNil.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FMResultSetInitializable <NSObject>
-
-@property (nonatomic) TableModel tableModel;
-- (instancetype)initWithFMResultSet:(FMResultSet *)resultSet;
+@protocol FMDBResultDictionaryInitializable <NSObject>
+- (instancetype)initWithResultDictionary:(NSDictionary *)resultDictionary;
 
 @end
 

@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "DataAccessError.h"
-#import "FMResultSetInitializable.h"
-#import "SelectResult.h"
 #import "SQLiteRequest.h"
 
 extern NSString *_Nonnull const sqliteDBKey;
@@ -45,14 +43,13 @@ extern NSString *_Nonnull const sqliteDBKey;
 
 /**
  SELECT
-
+ 
  @param request (SQLiteRequest *) query・parameters
- @param selectResult (SelectResult *)結果を格納するオブジェクト
  @param error (DataAccessError **) エラーオブジェクト
+ @return (NSArray <NSDictionary *> *) 取得結果の配列
  */
-- (void)executeQuery:(nonnull SQLiteRequest *)request
-              result:(nonnull SelectResult *)selectResult
-               error:(DataAccessError *_Nullable *_Nullable)error;
+- (nullable NSArray <NSDictionary *> *)executeQuery:(nonnull SQLiteRequest *)request
+                                              error:(DataAccessError *_Nullable *_Nullable)error;
 
 #pragma mark - TRUNCATE
 

@@ -8,7 +8,6 @@
 
 #import "CompanyMasterRepository.h"
 #import "EncryptedDAO.h"
-#import "SelectResult.h"
 #import "SQLiteRequest.h"
 
 @implementation CompanyMasterRepositoryImpl
@@ -79,41 +78,47 @@
 - (NSArray <CompanyMaster *> *)selectAllWithError:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master;";
-    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
-                                                       parameters:nil
-                                                       tableModel:TableModelCompanyMaster];
-    SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result error:error];
+    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:nil];
+    NSArray <NSDictionary *> *resultDics = [[EncryptedDAO shared] executeQuery:request error:error];
 
-    return result.resultArray.copy;
+    NSMutableArray <CompanyMaster *> *results = [@[] mutableCopy];
+    for (NSDictionary *resultDic in resultDics) {
+        [results addObject:[[CompanyMaster alloc] initWithResultDictionary:resultDic]];
+    }
+
+    return results.copy;
 }
 
 - (NSArray <CompanyMaster *> *)selectByCompanyNo:(NSUInteger)companyNo error:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_no = ?;";
     NSArray *const parameter = @[@(companyNo)];
-    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
-                                                       parameters:parameter
-                                                       tableModel:TableModelCompanyMaster];
-    SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result error:error];
+    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:parameter];
+    NSArray <NSDictionary *> *resultDics = [[EncryptedDAO shared] executeQuery:request error:error];
 
-    return result.resultArray.copy;
+    NSMutableArray <CompanyMaster *> *results = [@[] mutableCopy];
+    for (NSDictionary *resultDic in resultDics) {
+        [results addObject:[[CompanyMaster alloc] initWithResultDictionary:resultDic]];
+    }
+
+    return results.copy;
 }
 
 - (NSArray <CompanyMaster *> *)selectByEmployeesCount:(NSInteger)threshold error:(DataAccessError **)error {
 
     NSString *const sql = @"SELECT company_no, company_name, company_employees_count FROM company_master WHERE company_employees_count >= ?;";
     NSArray *const parameter = @[@(threshold)];
-    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql
-                                                       parameters:parameter
-                                                       tableModel:TableModelCompanyMaster];
-    SelectResult <CompanyMaster *>*result = [[SelectResult alloc] initWithTableModel:TableModelCompanyMaster resultType:CompanyMaster.new];
 
-    [[EncryptedDAO shared] executeQuery:request result:result error:error];
+    SQLiteRequest *request = [[SQLiteRequest alloc] initWithQuery:sql parameters:parameter];
+    NSArray <NSDictionary *> *resultDics = [[EncryptedDAO shared] executeQuery:request error:error];
 
-    return result.resultArray.copy;
+    NSMutableArray <CompanyMaster *> *results = [@[] mutableCopy];
+    for (NSDictionary *resultDic in resultDics) {
+        [results addObject:[[CompanyMaster alloc] initWithResultDictionary:resultDic]];
+    }
+
+    return results.copy;
 }
 @end
