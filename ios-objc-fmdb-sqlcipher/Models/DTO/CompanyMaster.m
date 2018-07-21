@@ -32,4 +32,9 @@
     return [self initWithCompanyNo:companyNo companyName:companyName companyEmployeesCount:companyEmployeesCount];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@" company_no: %ld\n company_name: %@\n company_employees_count: %ld\n\n",
+            self.companyNo, self.companyName, self.companyEmployeesCount];
+}
+
 @end
