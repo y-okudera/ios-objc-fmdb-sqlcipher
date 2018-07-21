@@ -31,6 +31,7 @@
 		B678120720F07B38000C79BB /* CompanyMasterRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = B678120620F07B38000C79BB /* CompanyMasterRepository.m */; };
 		B6A4E57221038080003A0A2C /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4E57121038080003A0A2C /* FirstViewController.m */; };
 		B6A4E57421038085003A0A2C /* FirstViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6A4E57321038085003A0A2C /* FirstViewController.storyboard */; };
+		B6A4E57821039122003A0A2C /* CompanyMasterTableCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4E57721039122003A0A2C /* CompanyMasterTableCache.m */; };
 		B6FFA05C20FA04F400E485ED /* DataAccessError.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FFA05B20FA04F400E485ED /* DataAccessError.m */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +99,8 @@
 		B6A4E57021038080003A0A2C /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		B6A4E57121038080003A0A2C /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		B6A4E57321038085003A0A2C /* FirstViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FirstViewController.storyboard; sourceTree = "<group>"; };
+		B6A4E57621039122003A0A2C /* CompanyMasterTableCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompanyMasterTableCache.h; sourceTree = "<group>"; };
+		B6A4E57721039122003A0A2C /* CompanyMasterTableCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompanyMasterTableCache.m; sourceTree = "<group>"; };
 		B6FFA05A20FA04F400E485ED /* DataAccessError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataAccessError.h; sourceTree = "<group>"; };
 		B6FFA05B20FA04F400E485ED /* DataAccessError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataAccessError.m; sourceTree = "<group>"; };
 		CC830DAFEEDE336AD68D817B /* libPods-ios-objc-fmdb-sqlcipherTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios-objc-fmdb-sqlcipherTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,6 +249,7 @@
 		B67811E620EFDAAC000C79BB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B6A4E575210390E4003A0A2C /* Cache */,
 				B6FFA05920FA042900E485ED /* Error */,
 				B6FFA05720FA00B100E485ED /* DTO */,
 				B67811E720EFDAB5000C79BB /* Protocol */,
@@ -302,6 +306,15 @@
 				B6A4E57321038085003A0A2C /* FirstViewController.storyboard */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B6A4E575210390E4003A0A2C /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				B6A4E57621039122003A0A2C /* CompanyMasterTableCache.h */,
+				B6A4E57721039122003A0A2C /* CompanyMasterTableCache.m */,
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		B6FFA05720FA00B100E485ED /* DTO */ = {
@@ -527,6 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B67811F420EFDD6B000C79BB /* NSObject+NullToNil.m in Sources */,
+				B6A4E57821039122003A0A2C /* CompanyMasterTableCache.m in Sources */,
 				B678120720F07B38000C79BB /* CompanyMasterRepository.m in Sources */,
 				B67811B520EFD567000C79BB /* ViewController.m in Sources */,
 				B678120020F07618000C79BB /* CompanyMaster.m in Sources */,
