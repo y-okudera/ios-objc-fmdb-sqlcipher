@@ -186,7 +186,7 @@
     // キャッシュが存在する場合はキャッシュを使用する
     BOOL existCaches = [[CompanyMasterTableCache shared] existCaches];
     if (existCaches) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K >= %@", @"company_employees_count", @(threshold)];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K >= %@", @"companyEmployeesCount", @(threshold)];
         return [[CompanyMasterTableCache shared] readCachesWithPredicate:predicate];
     }
 
